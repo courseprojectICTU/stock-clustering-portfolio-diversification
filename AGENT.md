@@ -146,3 +146,26 @@ Tuân thủ nghiêm ngặt kỹ năng `ml-best-practices`:
 - Tạo đường dẫn nhấp được (clickable links) theo định dạng markdown `file:///path/to/file` cho mọi file và ký hiệu hàm/class.
 - Luôn kiểm tra tính khả thi của dữ liệu tài chính (Yahoo Finance API `yfinance` hoặc `vnstock` cho chứng khoán Việt Nam).
 - Ưu tiên tính tái lập và giải thích rõ ràng từng quyết định lựa chọn siêu tham số (như ngưỡng cắt dendrogram $k$, linkage criterion).
+
+---
+
+## 7. Nhật ký các phiên làm việc (Session Logs & Handover)
+
+### Phiên 1 (2026-10-27) - Khởi động dự án, Pipeline thu thập & Thu thập hoàn tất 100 mã VN100
+- **Trạng thái:** Hoàn tất Mốc 1 - Bước 1 & Bước 2 theo [docs/lo_trinh_machine_learning.md](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/docs/lo_trinh_machine_learning.md).
+- **Những việc đã làm:**
+  1. Phân tích chi tiết yêu cầu đề tài từ [docs/detai.txt](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/docs/detai.txt), xác định bài toán theo Tom Mitchell $[T, E, P]$.
+  2. Thống nhất phạm vi nghiên cứu: Rổ chỉ số **VN100 (HOSE)** trong khung thời gian 5 năm (**01/01/2022 – 23/10/2026**).
+  3. Xây dựng module thu thập [src/data_loader.py](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/src/data_loader.py) với kiến trúc Multi-backend (dynamic importlib, hỗ trợ vnstock v5 và fallback tự động Yahoo Finance `.VN`).
+  4. Xây dựng script dòng lệnh [scripts/crawl_vn100.py](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/scripts/crawl_vn100.py) kèm thanh tiến trình `tqdm` và tính năng Resume bỏ qua mã đã cào xong.
+  5. Người dùng đã tự thực thi cào dữ liệu thành công **100/100 mã cổ phiếu** thô lưu trữ độc lập tại `data/raw/{symbol}.csv`.
+  6. Xây dựng bảng metadata đối chứng nhóm ngành ICB cấp 1-2 tại [data/metadata/vn100_symbols.csv](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/data/metadata/vn100_symbols.csv).
+  7. Khởi tạo notebook [notebooks/01_data_collection_prep.ipynb](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/notebooks/01_data_collection_prep.ipynb) và ghi chép đề cương báo cáo tại [docs/note_dua_vao_bao_cao.md](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/docs/note_dua_vao_bao_cao.md).
+- **Phát hiện quan trọng:** Một số cổ phiếu niêm yết muộn/chuyển sàn (như `VTP` chuyển sàn 03/2024 chỉ có ~686 phiên thay vì ~1200 phiên). Bắt buộc phải dùng `adj_close` để loại bỏ nhiễu chia cổ tức.
+- **Kế hoạch cho phiên tiếp theo (Phiên 2):**
+  - Thực hiện **Mốc 1 - Bước 3 & Bước 4 (EDA & Tiền xử lý)**:
+    1. Căn chỉnh lịch giao dịch chung giữa 100 mã (Trading Calendar Alignment).
+    2. Xử lý dữ liệu thiếu: Thống kê số phiên hợp lệ và đưa ra tiêu chí chọn lọc danh sách mã đạt chuẩn ($>90-95\%$ số phiên).
+    3. Tính chuỗi lợi suất logarit $r_t = \ln(P_t/P_{t-1})$.
+    4. Xây dựng ma trận tương quan $\mathbf{C} = [\rho_{i,j}]$ và ma trận khoảng cách Mantegna $d(i, j) = \sqrt{2(1 - \rho_{i,j})}$ lưu vào `data/processed/`.
+
