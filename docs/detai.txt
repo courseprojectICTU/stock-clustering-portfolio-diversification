@@ -1,0 +1,9 @@
+Tên tiểu luận: Phân nhóm cổ phiếu theo mức độ đồng biến động giá phục vụ đa dạng hóa danh mục đầu tư
+Nhiệm vụ:
+1. Nghiên cứu phân cụm phân cấp gộp (Agglomerative) với các tiêu chí liên kết Single, Complete, Average, Ward; độ đo khoảng cách dựa trên hệ số tương quan giữa các chuỗi lợi suất.
+2. Thu thập dữ liệu giá đóng cửa hằng ngày của 50–100 mã cổ phiếu (ví dụ nhóm VN100 hoặc S&P 100) trong 2–3 năm; tính lợi suất logarit, xử lý dữ liệu thiếu và xây dựng ma trận khoảng cách tương quan.
+3. Thực hiện phân cụm phân cấp với các tiêu chí liên kết khác nhau, trực quan hóa dendrogram và bản đồ nhiệt ma trận tương quan đã sắp xếp; xác định số cụm bằng cắt dendrogram và hệ số Silhouette, so sánh với K-Means trên đặc trưng rút gọn bằng PCA.
+4. Đánh giá độ ổn định của các cụm qua các giai đoạn thời gian khác nhau (ARI giữa các giai đoạn); đối chiếu cụm với ngành nghề của doanh nghiệp và minh họa ứng dụng chọn danh mục đa dạng hóa (mỗi cụm một mã) so với danh mục chọn ngẫu nhiên.
+Gợi ý thuật toán: Agglomerative Clustering (Single, Complete, Average, Ward), K-Means, PCA; hệ số Silhouette, ARI.
+Thành viên: 2
+Hạn cuối: 2 tháng nữa
