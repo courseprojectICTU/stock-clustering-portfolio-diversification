@@ -44,10 +44,6 @@ venv.bak/
 *.swp
 *.swo
 
-# Large data files (keep raw archives or downloads local)
-data/raw/*.csv
-data/processed/*.parquet
-!data/metadata/*.csv
 
 # Reports
 reports/figures/*.png
