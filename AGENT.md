@@ -81,16 +81,21 @@ stock-clustering-portfolio-diversification/
 │
 ├── data/                          # Dữ liệu phục vụ nghiên cứu
 │   ├── raw/                       # Dữ liệu giá đóng cửa thô (CSV)
-│   ├── processed/                 # Lợi suất logarit, ma trận tương quan, sạch
+│   ├── processed/                 # Dữ liệu sạch toàn kỳ, train/ và test/
+│   │   ├── train/                 # Dữ liệu In-Sample (2022 - 2024): giá, lợi suất, mantegna distance
+│   │   └── test/                  # Dữ liệu Out-of-Sample (2025 - 2026): giá, lợi suất backtest
 │   └── metadata/                  # Bảng tra cứu mã CP, tên cty, ngành ICB/GICS
 │
 ├── notebooks/                     # Jupyter Notebooks nghiên cứu & trực quan hóa
-│   ├── 01_data_collection_prep.ipynb    # Thu thập, làm sạch & EDA lợi suất
-│   ├── 02_correlation_distance.ipynb    # Ma trận tương quan & khoảng cách Mantegna
-│   ├── 03_hierarchical_clustering.ipynb # Dendrogram, Silhouette, 4 Linkages
-│   ├── 04_kmeans_pca_comparison.ipynb   # Đối chứng PCA + K-Means
-│   ├── 05_stability_and_sector.ipynb    # ARI theo thời gian & đối chiếu ngành
-│   └── 06_portfolio_backtest.ipynb      # Xây dựng danh mục đa dạng hóa & Backtest
+│   ├── 01_data_collection_prep.ipynb    # Thu thập 100 mã VN100 & metadata ICB
+│   ├── 02_data_preprocessing.ipynb      # Lọc VTP/NAB, khử ngày nghỉ, Forward-fill
+│   ├── 03_feature_extraction_returns.ipynb # Lợi suất logarit & kiểm định đuôi béo
+│   ├── 04_correlation_distance.ipynb    # Pearson & khoảng cách Mantegna toàn kỳ
+│   ├── 05_train_test_split.ipynb        # Phân chia Train (2022-2024) / Test (2025-2026)
+│   ├── 06_hierarchical_clustering.ipynb # Dendrogram, Silhouette, 4 Linkages trên Train
+│   ├── 07_kmeans_pca_comparison.ipynb   # Đối chứng PCA + K-Means
+│   ├── 08_stability_and_sector.ipynb    # ARI theo thời gian & đối chiếu ngành ICB
+│   └── 09_portfolio_backtest.ipynb      # Danh mục đa dạng hóa & Out-of-Sample Backtest
 │
 ├── src/                           # Mã nguồn module tái sử dụng
 │   ├── __init__.py
@@ -162,10 +167,65 @@ Tuân thủ nghiêm ngặt kỹ năng `ml-best-practices`:
   6. Xây dựng bảng metadata đối chứng nhóm ngành ICB cấp 1-2 tại [data/metadata/vn100_symbols.csv](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/data/metadata/vn100_symbols.csv).
   7. Khởi tạo notebook [notebooks/01_data_collection_prep.ipynb](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/notebooks/01_data_collection_prep.ipynb) và ghi chép đề cương báo cáo tại [docs/note_dua_vao_bao_cao.md](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/docs/note_dua_vao_bao_cao.md).
 - **Phát hiện quan trọng:** Một số cổ phiếu niêm yết muộn/chuyển sàn (như `VTP` chuyển sàn 03/2024 chỉ có ~686 phiên thay vì ~1200 phiên). Bắt buộc phải dùng `adj_close` để loại bỏ nhiễu chia cổ tức.
-- **Kế hoạch cho phiên tiếp theo (Phiên 2):**
-  - Thực hiện **Mốc 1 - Bước 3 & Bước 4 (EDA & Tiền xử lý)**:
-    1. Căn chỉnh lịch giao dịch chung giữa 100 mã (Trading Calendar Alignment).
-    2. Xử lý dữ liệu thiếu: Thống kê số phiên hợp lệ và đưa ra tiêu chí chọn lọc danh sách mã đạt chuẩn ($>90-95\%$ số phiên).
-    3. Tính chuỗi lợi suất logarit $r_t = \ln(P_t/P_{t-1})$.
-    4. Xây dựng ma trận tương quan $\mathbf{C} = [\rho_{i,j}]$ và ma trận khoảng cách Mantegna $d(i, j) = \sqrt{2(1 - \rho_{i,j})}$ lưu vào `data/processed/`.
+
+### Phiên 2 (2026-10-29) - Tiền xử lý Dữ liệu Thực nghiệm & Trích chọn Đặc trưng Lợi suất Logarit (Bước 3.1)
+- **Trạng thái:** Hoàn tất Mốc 1 - Bước 2 (Làm sạch & Căn chỉnh lịch) & Bước 3.1 (Trích chọn Đặc trưng Lợi suất Logarit).
+- **Những việc đã làm:**
+  1. Commit và push toàn bộ 100 tệp CSV dữ liệu giá thô VN100 (2022–2026) lên GitHub repository sau khi mở chặn `.gitignore` (commit `6419b21`).
+  2. Xây dựng module tiền xử lý cốt lõi [src/preprocessing.py](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/src/preprocessing.py):
+     - Phát hiện và lọc bỏ 68 ngày nghỉ lễ sàn HOSE ($Volume = 0$) bị Yahoo Finance điền lặp giá, bảo toàn lịch giao dịch thực 1.187 phiên.
+     - Lọc độ bao phủ lịch sử $\ge 90\%$: Giữ lại 98 mã cổ phiếu, loại bỏ 2 mã chuyển sàn muộn `VTP` và `NAB`.
+     - Căn chỉnh lịch giao dịch chuẩn và điền khuyết 48 ô cho 3 mã `CTR`, `HHV`, `EVF` bằng phương pháp Forward-Fill (`ffill`). Dữ liệu đạt độ sạch 100% (0 NaN).
+  3. Xây dựng ứng dụng web tương tác [scripts/preprocessing_app.py](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/scripts/preprocessing_app.py) (chạy tại `http://127.0.0.1:8000`) trực quan hóa so sánh Trước vs Sau xử lý, biểu đồ phân phối chuỗi lợi suất, biểu đồ Top 10 rủi ro vs lợi nhuận và bảng hồ sơ tài chính 98 mã.
+  4. Thực hiện Trích chọn Đặc trưng Lợi suất Logarit $r_t = \ln(P_t / P_{t-1})$:
+     - Tạo ma trận đặc trưng $1.186 \text{ phiên} \times 98 \text{ mã}$ tại [data/processed/log_returns.csv](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/data/processed/log_returns.csv).
+     - Tạo bảng 8 chỉ số tài chính 98 mã tại [data/processed/stock_financial_features.csv](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/data/processed/stock_financial_features.csv).
+  5. Thống nhất kiến trúc: Phân định ranh giới rõ ràng giữa Trích chọn Đặc trưng (Mục 3.1 - Lợi suất logarit đơn lẻ) và Biểu diễn Tri thức Liên kết (Mục 3.2 - Ma trận tương quan Pearson và Ma trận khoảng cách siêu mêtric Mantegna, hiện tạm khóa để người dùng kiểm chứng).
+  6. Cập nhật tài liệu: [docs/note_dua_vao_bao_cao.md](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/docs/note_dua_vao_bao_cao.md), [docs/ghi_chu_data.xlsx](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/docs/ghi_chu_data.xlsx) và script cập nhật [scripts/update_ghi_chu_excel.py](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/scripts/update_ghi_chu_excel.py).
+### Phiên 3 (2026-10-30) - Bước 3.2: Biểu diễn Tri thức Quan hệ & Thiết lập Không gian Khoảng cách Siêu Mêtric Mantegna
+- **Trạng thái:** Hoàn tất Mốc 1 - Bước 3.2 (Ma trận tương quan Pearson, Không gian Khoảng cách Siêu Mêtric Mantegna, Kiểm định 4 Tiên đề Metric, Phản chứng Nghịch lý Euclid, và Web App Studio v1.2.0).
+- **Những việc đã làm:**
+  1. Chứng minh toán học và thực nghiệm **Nghịch lý Khoảng cách Euclid (The Euclidean Paradox)**:
+     - Phản chứng *Bẫy biên độ dao động (Scale Bias)* và *Bẫy ngược pha (Antiphase Trap)*.
+     - Xuất bản biểu đồ minh họa khoa học [`reports/figures/euclidean_vs_pearson_paradox.png`](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/reports/figures/euclidean_vs_pearson_paradox.png).
+  2. Xây dựng cơ sở lý thuyết **Khoảng cách Siêu Mêtric Mantegna** $d(i, j) = \sqrt{2(1 - \rho_{i, j})}$:
+     - Chứng minh hình học mặt cầu đơn vị $\mathbb{S}^{T-1}$ và 4 tiên đề mêtric (đặc biệt là bất đẳng thức tam giác loại bỏ lỗi đảo ngược phân cấp - Inversion trên Dendrogram).
+     - Xuất bản biểu đồ hình học [`reports/figures/mantegna_transformation_metric.png`](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/reports/figures/mantegna_transformation_metric.png).
+  3. Hoàn thành và chạy live Notebook khoa học [`notebooks/02_correlation_distance.ipynb`](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/notebooks/02_correlation_distance.ipynb):
+     - Kiểm định bất đẳng thức tam giác trên 20.000 bộ ba: $0$ vi phạm ($100\%$ hợp lệ).
+     - Phát hiện các cặp đồng biến động mạnh phản ánh hoàn hảo phân ngành thực tế: `HSG - NKG` ($\rho=0.8873, d=0.4747$), `DCM - DPM` ($\rho=0.8625, d=0.5244$), `SSI - VCI` ($\rho=0.8197, d=0.6004$).
+  4. Xuất bản 2 ma trận cốt lõi:
+     - [`data/processed/correlation_matrix.csv`](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/data/processed/correlation_matrix.csv) ($98 \times 98$).
+     - [`data/processed/mantegna_distance_matrix.csv`](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/data/processed/mantegna_distance_matrix.csv) ($98 \times 98$).
+  5. Tách biệt hoàn toàn và kích hoạt ứng dụng Web Dashboard Studio v1.2.0 tại thư mục độc lập [`web_app/`](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/web_app):
+     - Chạy nền trực tiếp tại `http://127.0.0.1:8000`.
+     - Kích hoạt tính năng tính ma trận tương quan và khoảng cách Mantegna.
+     - Thêm bảng Top 10 cặp đồng pha nhất vs Top 10 cặp phân kỳ/trực giao nhất.
+     - Thêm biểu đồ phân phối khoảng cách Mantegna và Bản đồ nhiệt tương tác (Heatmap Canvas) chuyển đổi mượt mà giữa $\rho$ và $d$.
+   6. Tái cơ cấu và hoàn thiện hệ thống 4 Notebooks tuần tự:
+      - 01_data_collection_prep.ipynb: Thu thập giá thô 100 mã.
+      - 02_data_preprocessing.ipynb: Tiền xử lý, lọc VTP/NAB, khử 68 ngày lễ, điền khuyết ffill.
+      - 03_feature_extraction_returns.ipynb: Trích chọn đặc trưng lợi suất logarit, kiểm định Jarque-Bera.
+      - 04_correlation_distance.ipynb: Biểu diễn quan hệ tương quan Pearson và Mantegna metric.
+  7. Đồng bộ tài liệu báo cáo: [`docs/note_dua_vao_bao_cao.md`](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/docs/note_dua_vao_bao_cao.md).
+- **Kế hoạch cho phiên tiếp theo (Phiên 5 - Mốc 2: Mô hình hóa Phân cụm):**
+  - Chuyển sang **Notebook `06_hierarchical_clustering.ipynb`**:
+    1. Huấn luyện Phân cụm Phân cấp (Agglomerative Hierarchical Clustering) với 4 tiêu chí liên kết: *Single*, *Complete*, *Average (UPGMA)*, và *Ward*.
+    2. Vẽ Dendrogram và Clustermap sắp xếp lại theo thứ tự cụm.
+    3. Đo hệ số bảo toàn khoảng cách gốc Cophenetic Correlation Coefficient (CCC).
+    4. Quét số cụm tối ưu $k \in [3, 15]$ bằng Silhouette Score Analysis.
+
+### Phiên 4 (2026-10-30) - Bước 3.3: Phân chia Train/Test Chuỗi Thời Gian & Hoàn tất Báo cáo KT1 (XeLaTeX)
+- **Trạng thái:** Hoàn tất toàn diện 100% yêu cầu Bài kiểm tra 1 (Mốc 1: Bước 1, Bước 2, Bước 3.1, 3.2, 3.3).
+- **Những việc đã làm:**
+  1. Xây dựng và thực thi [notebooks/05_train_test_split.ipynb](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/notebooks/05_train_test_split.ipynb):
+     - Phân chia tập dữ liệu In-Sample Train (2022--2024: 740 phiên giá, 739 phiên lợi suất) và Out-of-Sample Test (2025--2026: 447 phiên giá).
+     - Độc lập tính ma trận tương quan và khoảng cách Mantegna cách ly hoàn toàn trên tập Train ($Q = 7.54 \gg 1$), lưu trữ tại `data/processed/train/`.
+  2. Soạn thảo và hoàn thiện Báo cáo kỹ thuật chuẩn mực [docs/report/Bao_cao_KT1_Nhom_StockClustering.tex](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/docs/report/Bao_cao_KT1_Nhom_StockClustering.tex):
+     - Chuẩn hóa toàn bộ phông chữ Times New Roman bằng XeLaTeX (`fontspec`).
+     - Tích hợp logo chính thức ICTU và bảng tự đánh giá 10 tiêu chí (xltabular).
+     - Rà soát và tinh gọn 5 tài liệu tham khảo cốt lõi học thuật (Markowitz 1952, Mitchell 1997, Mantegna 1999, Laloux 1999, Lopez de Prado 2018) đi kèm trích dẫn `\cite` chính xác trong văn bản.
+     - Hoàn thiện Phụ lục B với bảng nhật ký đóng góp của các thành viên nhóm.
+  3. Xuất bản tệp PDF hoàn chỉnh: [docs/report/Bao_cao_KT1_Nhom_StockClustering.pdf](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/docs/report/Bao_cao_KT1_Nhom_StockClustering.pdf).
+
 

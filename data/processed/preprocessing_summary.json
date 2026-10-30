@@ -1,0 +1,3537 @@
+{
+  "config": {
+    "min_coverage_ratio": 0.9,
+    "filter_holidays": true,
+    "holiday_zero_vol_ratio": 0.5,
+    "imputation_method": "ffill",
+    "calc_returns": true,
+    "calc_relations": true,
+    "return_type": "log"
+  },
+  "comparison": {
+    "before": {
+      "total_stocks": 100,
+      "total_calendar_days": 1255,
+      "max_sessions": 1255,
+      "missing_values_count": 48,
+      "holiday_sessions_with_zero_vol": 68
+    },
+    "after": {
+      "kept_stocks_count": 98,
+      "excluded_stocks_count": 2,
+      "total_price_sessions": 1187,
+      "total_return_sessions": 1186,
+      "missing_values_count": 0,
+      "imputed_cells_count": 48,
+      "saved_files": [
+        "D:\\HocTap\\HK7\\Học máy\\project\\stock-clustering-portfolio-diversification\\data\\processed\\adj_close_clean.csv",
+        "D:\\HocTap\\HK7\\Học máy\\project\\stock-clustering-portfolio-diversification\\data\\processed\\log_returns.csv",
+        "D:\\HocTap\\HK7\\Học máy\\project\\stock-clustering-portfolio-diversification\\data\\processed\\stock_financial_features.csv",
+        "D:\\HocTap\\HK7\\Học máy\\project\\stock-clustering-portfolio-diversification\\data\\processed\\correlation_matrix.csv",
+        "D:\\HocTap\\HK7\\Học máy\\project\\stock-clustering-portfolio-diversification\\data\\processed\\mantegna_distance_matrix.csv",
+        "D:\\HocTap\\HK7\\Học máy\\project\\stock-clustering-portfolio-diversification\\data\\processed\\preprocessing_summary.json"
+      ]
+    }
+  },
+  "excluded_stocks": [
+    {
+      "symbol": "NAB",
+      "valid_sessions": 653,
+      "total_master_sessions": 1187,
+      "coverage_pct": 55.01,
+      "is_kept": false,
+      "reason": "Excluded: Historical coverage 55.0% < 90%"
+    },
+    {
+      "symbol": "VTP",
+      "valid_sessions": 651,
+      "total_master_sessions": 1187,
+      "coverage_pct": 54.84,
+      "is_kept": false,
+      "reason": "Excluded: Historical coverage 54.8% < 90%"
+    }
+  ],
+  "stock_coverage_summary": [
+    {
+      "symbol": "AAA",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "ACB",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "AGG",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "ANV",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "ASM",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "BAF",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "BCM",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "BFC",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "BID",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "BSI",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "BVH",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "BWE",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "CII",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "CMG",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "CTD",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "CTG",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "CTR",
+      "valid_sessions": 1157,
+      "total_master_sessions": 1187,
+      "coverage_pct": 97.47,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "CTS",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "DBC",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "DCM",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "DGC",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "DGW",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "DIG",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "DPM",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "DXG",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "DXS",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "EIB",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "EVF",
+      "valid_sessions": 1181,
+      "total_master_sessions": 1187,
+      "coverage_pct": 99.49,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "FPT",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "FTS",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "GAS",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "GEG",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "GEX",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "GVR",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "HAH",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "HCM",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "HDB",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "HDC",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "HDG",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "HHV",
+      "valid_sessions": 1175,
+      "total_master_sessions": 1187,
+      "coverage_pct": 98.99,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "HPG",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "HSG",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "KBC",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "KDC",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "KDH",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "KOS",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "LPB",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "MBB",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "MSB",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "MSN",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "MWG",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "NAB",
+      "valid_sessions": 653,
+      "total_master_sessions": 1187,
+      "coverage_pct": 55.01,
+      "is_kept": false,
+      "reason": "Excluded: Historical coverage 55.0% < 90%"
+    },
+    {
+      "symbol": "NKG",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "NLG",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "NT2",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "NVL",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "OCB",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "PAN",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "PC1",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "PDR",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "PET",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "PHR",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "PLX",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "PNJ",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "POW",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "PTB",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "PVD",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "PVT",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "REE",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "SAB",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "SBT",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "SCR",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "SCS",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "SHB",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "SSB",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "SSI",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "STB",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "SZC",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "TCB",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "TCH",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "TLG",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "TMS",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "TPB",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "VCB",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "VCI",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "VGC",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "VHC",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "VHM",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "VIB",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "VIC",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "VIX",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "VJC",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "VND",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "VNM",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "VOS",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "VPB",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "VPI",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "VRE",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "VSH",
+      "valid_sessions": 1187,
+      "total_master_sessions": 1187,
+      "coverage_pct": 100.0,
+      "is_kept": true,
+      "reason": "OK (Historical coverage >= threshold)"
+    },
+    {
+      "symbol": "VTP",
+      "valid_sessions": 651,
+      "total_master_sessions": 1187,
+      "coverage_pct": 54.84,
+      "is_kept": false,
+      "reason": "Excluded: Historical coverage 54.8% < 90%"
+    }
+  ],
+  "detected_holidays": [
+    {
+      "date": "2022-01-03",
+      "zero_vol_stocks": 95,
+      "total_active_stocks": 95,
+      "zero_vol_ratio": 0.95
+    },
+    {
+      "date": "2022-01-31",
+      "zero_vol_stocks": 97,
+      "total_active_stocks": 97,
+      "zero_vol_ratio": 0.97
+    },
+    {
+      "date": "2022-02-01",
+      "zero_vol_stocks": 97,
+      "total_active_stocks": 97,
+      "zero_vol_ratio": 0.97
+    },
+    {
+      "date": "2022-02-02",
+      "zero_vol_stocks": 97,
+      "total_active_stocks": 97,
+      "zero_vol_ratio": 0.97
+    },
+    {
+      "date": "2022-02-03",
+      "zero_vol_stocks": 97,
+      "total_active_stocks": 97,
+      "zero_vol_ratio": 0.97
+    },
+    {
+      "date": "2022-02-04",
+      "zero_vol_stocks": 97,
+      "total_active_stocks": 97,
+      "zero_vol_ratio": 0.97
+    },
+    {
+      "date": "2022-02-15",
+      "zero_vol_stocks": 97,
+      "total_active_stocks": 97,
+      "zero_vol_ratio": 0.97
+    },
+    {
+      "date": "2022-04-11",
+      "zero_vol_stocks": 98,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.98
+    },
+    {
+      "date": "2022-05-02",
+      "zero_vol_stocks": 98,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.98
+    },
+    {
+      "date": "2022-05-03",
+      "zero_vol_stocks": 98,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.98
+    },
+    {
+      "date": "2022-06-02",
+      "zero_vol_stocks": 96,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.96
+    },
+    {
+      "date": "2022-07-12",
+      "zero_vol_stocks": 96,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.96
+    },
+    {
+      "date": "2022-09-01",
+      "zero_vol_stocks": 98,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.98
+    },
+    {
+      "date": "2022-09-02",
+      "zero_vol_stocks": 98,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.98
+    },
+    {
+      "date": "2023-01-02",
+      "zero_vol_stocks": 98,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.98
+    },
+    {
+      "date": "2023-01-20",
+      "zero_vol_stocks": 98,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.98
+    },
+    {
+      "date": "2023-01-23",
+      "zero_vol_stocks": 98,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.98
+    },
+    {
+      "date": "2023-01-24",
+      "zero_vol_stocks": 98,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.98
+    },
+    {
+      "date": "2023-01-25",
+      "zero_vol_stocks": 98,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.98
+    },
+    {
+      "date": "2023-01-26",
+      "zero_vol_stocks": 98,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.98
+    },
+    {
+      "date": "2023-05-01",
+      "zero_vol_stocks": 98,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.98
+    },
+    {
+      "date": "2023-05-02",
+      "zero_vol_stocks": 98,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.98
+    },
+    {
+      "date": "2023-05-03",
+      "zero_vol_stocks": 98,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.98
+    },
+    {
+      "date": "2023-05-24",
+      "zero_vol_stocks": 95,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.95
+    },
+    {
+      "date": "2023-06-22",
+      "zero_vol_stocks": 97,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.97
+    },
+    {
+      "date": "2023-09-01",
+      "zero_vol_stocks": 98,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.98
+    },
+    {
+      "date": "2023-09-04",
+      "zero_vol_stocks": 98,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.98
+    },
+    {
+      "date": "2024-01-01",
+      "zero_vol_stocks": 98,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.98
+    },
+    {
+      "date": "2024-01-25",
+      "zero_vol_stocks": 98,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.98
+    },
+    {
+      "date": "2024-02-02",
+      "zero_vol_stocks": 98,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.98
+    },
+    {
+      "date": "2024-02-08",
+      "zero_vol_stocks": 98,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.98
+    },
+    {
+      "date": "2024-02-09",
+      "zero_vol_stocks": 98,
+      "total_active_stocks": 98,
+      "zero_vol_ratio": 0.98
+    },
+    {
+      "date": "2024-02-12",
+      "zero_vol_stocks": 61,
+      "total_active_stocks": 61,
+      "zero_vol_ratio": 0.61
+    },
+    {
+      "date": "2024-02-13",
+      "zero_vol_stocks": 61,
+      "total_active_stocks": 61,
+      "zero_vol_ratio": 0.61
+    },
+    {
+      "date": "2024-02-14",
+      "zero_vol_stocks": 61,
+      "total_active_stocks": 61,
+      "zero_vol_ratio": 0.61
+    },
+    {
+      "date": "2024-04-18",
+      "zero_vol_stocks": 64,
+      "total_active_stocks": 64,
+      "zero_vol_ratio": 0.64
+    },
+    {
+      "date": "2024-04-29",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2024-04-30",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2024-05-01",
+      "zero_vol_stocks": 63,
+      "total_active_stocks": 63,
+      "zero_vol_ratio": 0.63
+    },
+    {
+      "date": "2024-06-03",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2024-09-02",
+      "zero_vol_stocks": 65,
+      "total_active_stocks": 65,
+      "zero_vol_ratio": 0.65
+    },
+    {
+      "date": "2024-09-03",
+      "zero_vol_stocks": 65,
+      "total_active_stocks": 65,
+      "zero_vol_ratio": 0.65
+    },
+    {
+      "date": "2025-01-01",
+      "zero_vol_stocks": 63,
+      "total_active_stocks": 63,
+      "zero_vol_ratio": 0.63
+    },
+    {
+      "date": "2025-01-27",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2025-01-28",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2025-01-29",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2025-01-30",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2025-01-31",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2025-04-07",
+      "zero_vol_stocks": 63,
+      "total_active_stocks": 63,
+      "zero_vol_ratio": 0.63
+    },
+    {
+      "date": "2025-04-30",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2025-05-01",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2025-05-02",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2025-09-01",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2025-09-02",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2026-01-01",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2026-01-02",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2026-02-16",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2026-02-17",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2026-02-18",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2026-02-19",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2026-02-20",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2026-04-27",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2026-04-30",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2026-05-01",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2026-08-31",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2026-09-01",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2026-09-02",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    },
+    {
+      "date": "2026-09-09",
+      "zero_vol_stocks": 100,
+      "total_active_stocks": 100,
+      "zero_vol_ratio": 1.0
+    }
+  ],
+  "imputed_stocks_detail": [
+    {
+      "symbol": "CTR",
+      "missing_sessions": 30,
+      "pct_missing": 2.53
+    },
+    {
+      "symbol": "EVF",
+      "missing_sessions": 6,
+      "pct_missing": 0.51
+    },
+    {
+      "symbol": "HHV",
+      "missing_sessions": 12,
+      "pct_missing": 1.01
+    }
+  ],
+  "price_statistics": [
+    {
+      "symbol": "AAA",
+      "start_price": 19048.9,
+      "end_price": 7240.0,
+      "min_price": 5236.1,
+      "max_price": 20981.4,
+      "total_change_pct": -61.99
+    },
+    {
+      "symbol": "ACB",
+      "start_price": 13612.7,
+      "end_price": 21300.0,
+      "min_price": 8656.3,
+      "max_price": 25284.0,
+      "total_change_pct": 56.47
+    },
+    {
+      "symbol": "AGG",
+      "start_price": 28833.3,
+      "end_price": 9490.0,
+      "min_price": 8900.0,
+      "max_price": 38036.4,
+      "total_change_pct": -67.09
+    },
+    {
+      "symbol": "ANV",
+      "start_price": 32184.6,
+      "end_price": 19050.0,
+      "min_price": 12200.0,
+      "max_price": 60121.9,
+      "total_change_pct": -40.81
+    },
+    {
+      "symbol": "ASM",
+      "start_price": 13077.2,
+      "end_price": 4730.0,
+      "min_price": 4470.0,
+      "max_price": 18996.0,
+      "total_change_pct": -63.83
+    },
+    {
+      "symbol": "BAF",
+      "start_price": 12124.5,
+      "end_price": 29850.0,
+      "min_price": 8812.9,
+      "max_price": 32700.0,
+      "total_change_pct": 146.2
+    },
+    {
+      "symbol": "BCM",
+      "start_price": 62356.0,
+      "end_price": 41650.0,
+      "min_price": 35000.0,
+      "max_price": 92870.7,
+      "total_change_pct": -33.21
+    },
+    {
+      "symbol": "BFC",
+      "start_price": 22601.6,
+      "end_price": 57700.0,
+      "min_price": 10161.9,
+      "max_price": 71084.0,
+      "total_change_pct": 155.29
+    },
+    {
+      "symbol": "BID",
+      "start_price": 25098.5,
+      "end_price": 34250.0,
+      "min_price": 19125.8,
+      "max_price": 50887.8,
+      "total_change_pct": 36.46
+    },
+    {
+      "symbol": "BSI",
+      "start_price": 28232.1,
+      "end_price": 26850.0,
+      "min_price": 8234.8,
+      "max_price": 51818.2,
+      "total_change_pct": -4.9
+    },
+    {
+      "symbol": "BVH",
+      "start_price": 49946.6,
+      "end_price": 69000.0,
+      "min_price": 36408.6,
+      "max_price": 86000.0,
+      "total_change_pct": 38.15
+    },
+    {
+      "symbol": "BWE",
+      "start_price": 40065.5,
+      "end_price": 42050.0,
+      "min_price": 32126.3,
+      "max_price": 56774.9,
+      "total_change_pct": 4.95
+    },
+    {
+      "symbol": "CII",
+      "start_price": 38452.5,
+      "end_price": 13950.0,
+      "min_price": 8334.0,
+      "max_price": 44887.1,
+      "total_change_pct": -63.72
+    },
+    {
+      "symbol": "CMG",
+      "start_price": 25206.0,
+      "end_price": 19750.0,
+      "min_price": 19150.0,
+      "max_price": 57821.5,
+      "total_change_pct": -21.65
+    },
+    {
+      "symbol": "CTD",
+      "start_price": 70209.7,
+      "end_price": 67000.0,
+      "min_price": 16691.4,
+      "max_price": 89642.1,
+      "total_change_pct": -4.57
+    },
+    {
+      "symbol": "CTG",
+      "start_price": 21005.2,
+      "end_price": 30950.0,
+      "min_price": 11968.5,
+      "max_price": 40871.2,
+      "total_change_pct": 47.34
+    },
+    {
+      "symbol": "CTR",
+      "start_price": 59058.0,
+      "end_price": 68900.0,
+      "min_price": 30443.9,
+      "max_price": 134021.5,
+      "total_change_pct": 16.67
+    },
+    {
+      "symbol": "CTS",
+      "start_price": 19113.3,
+      "end_price": 21950.0,
+      "min_price": 4119.3,
+      "max_price": 35039.1,
+      "total_change_pct": 14.84
+    },
+    {
+      "symbol": "DBC",
+      "start_price": 23176.3,
+      "end_price": 16450.0,
+      "min_price": 6938.8,
+      "max_price": 30200.2,
+      "total_change_pct": -29.02
+    },
+    {
+      "symbol": "DCM",
+      "start_price": 27055.7,
+      "end_price": 35500.0,
+      "min_price": 17850.0,
+      "max_price": 47460.6,
+      "total_change_pct": 31.21
+    },
+    {
+      "symbol": "DGC",
+      "start_price": 51524.7,
+      "end_price": 33700.0,
+      "min_price": 29839.6,
+      "max_price": 101889.8,
+      "total_change_pct": -34.59
+    },
+    {
+      "symbol": "DGW",
+      "start_price": 63787.8,
+      "end_price": 46200.0,
+      "min_price": 26364.3,
+      "max_price": 79671.7,
+      "total_change_pct": -27.57
+    },
+    {
+      "symbol": "DIG",
+      "start_price": 68479.6,
+      "end_price": 10150.0,
+      "min_price": 8217.4,
+      "max_price": 79340.9,
+      "total_change_pct": -85.18
+    },
+    {
+      "symbol": "DPM",
+      "start_price": 18808.5,
+      "end_price": 21650.0,
+      "min_price": 13945.3,
+      "max_price": 31834.4,
+      "total_change_pct": 15.11
+    },
+    {
+      "symbol": "DXG",
+      "start_price": 23973.9,
+      "end_price": 10450.0,
+      "min_price": 5809.6,
+      "max_price": 31840.4,
+      "total_change_pct": -56.41
+    },
+    {
+      "symbol": "DXS",
+      "start_price": 23085.2,
+      "end_price": 5200.0,
+      "min_price": 3425.4,
+      "max_price": 25456.2,
+      "total_change_pct": -77.47
+    },
+    {
+      "symbol": "EIB",
+      "start_price": 23526.4,
+      "end_price": 17850.0,
+      "min_price": 12526.6,
+      "max_price": 31100.0,
+      "total_change_pct": -24.13
+    },
+    {
+      "symbol": "EVF",
+      "start_price": 15598.5,
+      "end_price": 11950.0,
+      "min_price": 5991.5,
+      "max_price": 19250.0,
+      "total_change_pct": -23.39
+    },
+    {
+      "symbol": "FPT",
+      "start_price": 42352.7,
+      "end_price": 57000.0,
+      "min_price": 36637.1,
+      "max_price": 118050.7,
+      "total_change_pct": 34.58
+    },
+    {
+      "symbol": "FTS",
+      "start_price": 23348.7,
+      "end_price": 19150.0,
+      "min_price": 6646.4,
+      "max_price": 41236.3,
+      "total_change_pct": -17.98
+    },
+    {
+      "symbol": "GAS",
+      "start_price": 66263.0,
+      "end_price": 78300.0,
+      "min_price": 46437.1,
+      "max_price": 125068.5,
+      "total_change_pct": 18.17
+    },
+    {
+      "symbol": "GEG",
+      "start_price": 19055.5,
+      "end_price": 12100.0,
+      "min_price": 7692.5,
+      "max_price": 21603.8,
+      "total_change_pct": -36.5
+    },
+    {
+      "symbol": "GEX",
+      "start_price": 25991.4,
+      "end_price": 24100.0,
+      "min_price": 6744.6,
+      "max_price": 43600.0,
+      "total_change_pct": -7.28
+    },
+    {
+      "symbol": "GVR",
+      "start_price": 35142.8,
+      "end_price": 31750.0,
+      "min_price": 9596.3,
+      "max_price": 43600.0,
+      "total_change_pct": -9.65
+    },
+    {
+      "symbol": "HAH",
+      "start_price": 20211.4,
+      "end_price": 51300.0,
+      "min_price": 10166.9,
+      "max_price": 64842.5,
+      "total_change_pct": 153.82
+    },
+    {
+      "symbol": "HCM",
+      "start_price": 26913.6,
+      "end_price": 24000.0,
+      "min_price": 9039.7,
+      "max_price": 31054.1,
+      "total_change_pct": -10.83
+    },
+    {
+      "symbol": "HDB",
+      "start_price": 8404.5,
+      "end_price": 22550.0,
+      "min_price": 4729.2,
+      "max_price": 24692.3,
+      "total_change_pct": 168.31
+    },
+    {
+      "symbol": "HDC",
+      "start_price": 40512.1,
+      "end_price": 11800.0,
+      "min_price": 9980.0,
+      "max_price": 42771.7,
+      "total_change_pct": -70.87
+    },
+    {
+      "symbol": "HDG",
+      "start_price": 31710.9,
+      "end_price": 15550.0,
+      "min_price": 13493.0,
+      "max_price": 35546.1,
+      "total_change_pct": -50.96
+    },
+    {
+      "symbol": "HHV",
+      "start_price": 19471.5,
+      "end_price": 9660.0,
+      "min_price": 4946.3,
+      "max_price": 19471.5,
+      "total_change_pct": -50.39
+    },
+    {
+      "symbol": "HPG",
+      "start_price": 23812.3,
+      "end_price": 20950.0,
+      "min_price": 8183.7,
+      "max_price": 27095.6,
+      "total_change_pct": -12.02
+    },
+    {
+      "symbol": "HSG",
+      "start_price": 22093.9,
+      "end_price": 11050.0,
+      "min_price": 5196.5,
+      "max_price": 25010.3,
+      "total_change_pct": -49.99
+    },
+    {
+      "symbol": "KBC",
+      "start_price": 46050.0,
+      "end_price": 27000.0,
+      "min_price": 13950.0,
+      "max_price": 46500.0,
+      "total_change_pct": -41.37
+    },
+    {
+      "symbol": "KDC",
+      "start_price": 50406.0,
+      "end_price": 50800.0,
+      "min_price": 41600.0,
+      "max_price": 66502.2,
+      "total_change_pct": 0.78
+    },
+    {
+      "symbol": "KDH",
+      "start_price": 33778.1,
+      "end_price": 15100.0,
+      "min_price": 12977.3,
+      "max_price": 35268.3,
+      "total_change_pct": -55.3
+    },
+    {
+      "symbol": "KOS",
+      "start_price": 32400.0,
+      "end_price": 5050.0,
+      "min_price": 5050.0,
+      "max_price": 40700.0,
+      "total_change_pct": -84.41
+    },
+    {
+      "symbol": "LPB",
+      "start_price": 11650.8,
+      "end_price": 40400.0,
+      "min_price": 5366.2,
+      "max_price": 56000.0,
+      "total_change_pct": 246.76
+    },
+    {
+      "symbol": "MBB",
+      "start_price": 10949.1,
+      "end_price": 19800.0,
+      "min_price": 6388.8,
+      "max_price": 24247.5,
+      "total_change_pct": 80.84
+    },
+    {
+      "symbol": "MSB",
+      "start_price": 11670.0,
+      "end_price": 15500.0,
+      "min_price": 5528.8,
+      "max_price": 15550.0,
+      "total_change_pct": 32.82
+    },
+    {
+      "symbol": "MSN",
+      "start_price": 140631.7,
+      "end_price": 74200.0,
+      "min_price": 50300.0,
+      "max_price": 140631.7,
+      "total_change_pct": -47.24
+    },
+    {
+      "symbol": "MWG",
+      "start_price": 64437.4,
+      "end_price": 75500.0,
+      "min_price": 33357.3,
+      "max_price": 91048.9,
+      "total_change_pct": 17.17
+    },
+    {
+      "symbol": "NKG",
+      "start_price": 23383.6,
+      "end_price": 12000.0,
+      "min_price": 5606.1,
+      "max_price": 31339.4,
+      "total_change_pct": -48.68
+    },
+    {
+      "symbol": "NLG",
+      "start_price": 59937.1,
+      "end_price": 23300.0,
+      "min_price": 16667.3,
+      "max_price": 60777.4,
+      "total_change_pct": -61.13
+    },
+    {
+      "symbol": "NT2",
+      "start_price": 21004.7,
+      "end_price": 24100.0,
+      "min_price": 15727.0,
+      "max_price": 28900.0,
+      "total_change_pct": 14.74
+    },
+    {
+      "symbol": "NVL",
+      "start_price": 82790.7,
+      "end_price": 10600.0,
+      "min_price": 7534.9,
+      "max_price": 82883.7,
+      "total_change_pct": -87.2
+    },
+    {
+      "symbol": "OCB",
+      "start_price": 11854.0,
+      "end_price": 10800.0,
+      "min_price": 5216.6,
+      "max_price": 12695.7,
+      "total_change_pct": -8.89
+    },
+    {
+      "symbol": "PAN",
+      "start_price": 28042.3,
+      "end_price": 18100.0,
+      "min_price": 9228.2,
+      "max_price": 28972.2,
+      "total_change_pct": -35.45
+    },
+    {
+      "symbol": "PC1",
+      "start_price": 23070.2,
+      "end_price": 19500.0,
+      "min_price": 8317.6,
+      "max_price": 30450.0,
+      "total_change_pct": -15.48
+    },
+    {
+      "symbol": "PDR",
+      "start_price": 58182.7,
+      "end_price": 12150.0,
+      "min_price": 8449.0,
+      "max_price": 58182.7,
+      "total_change_pct": -79.12
+    },
+    {
+      "symbol": "PET",
+      "start_price": 20478.6,
+      "end_price": 56700.0,
+      "min_price": 7785.3,
+      "max_price": 56900.0,
+      "total_change_pct": 176.87
+    },
+    {
+      "symbol": "PHR",
+      "start_price": 31267.8,
+      "end_price": 32550.0,
+      "min_price": 14267.9,
+      "max_price": 37958.5,
+      "total_change_pct": 4.1
+    },
+    {
+      "symbol": "PLX",
+      "start_price": 47540.1,
+      "end_price": 35450.0,
+      "min_price": 21775.1,
+      "max_price": 67096.5,
+      "total_change_pct": -25.43
+    },
+    {
+      "symbol": "PNJ",
+      "start_price": 43813.2,
+      "end_price": 17450.0,
+      "min_price": 17450.0,
+      "max_price": 84666.7,
+      "total_change_pct": -60.17
+    },
+    {
+      "symbol": "POW",
+      "start_price": 15714.3,
+      "end_price": 12550.0,
+      "min_price": 8050.4,
+      "max_price": 16932.8,
+      "total_change_pct": -20.14
+    },
+    {
+      "symbol": "PTB",
+      "start_price": 40018.4,
+      "end_price": 30900.0,
+      "min_price": 20720.2,
+      "max_price": 52881.5,
+      "total_change_pct": -22.79
+    },
+    {
+      "symbol": "PVD",
+      "start_price": 13805.0,
+      "end_price": 18700.0,
+      "min_price": 7470.7,
+      "max_price": 26962.3,
+      "total_change_pct": 35.46
+    },
+    {
+      "symbol": "PVT",
+      "start_price": 15428.6,
+      "end_price": 23700.0,
+      "min_price": 8877.5,
+      "max_price": 27909.1,
+      "total_change_pct": 53.61
+    },
+    {
+      "symbol": "REE",
+      "start_price": 24397.0,
+      "end_price": 45900.0,
+      "min_price": 21957.3,
+      "max_price": 65465.8,
+      "total_change_pct": 88.14
+    },
+    {
+      "symbol": "SAB",
+      "start_price": 57399.7,
+      "end_price": 43200.0,
+      "min_price": 35958.0,
+      "max_price": 74755.4,
+      "total_change_pct": -24.74
+    },
+    {
+      "symbol": "SBT",
+      "start_price": 19127.3,
+      "end_price": 20950.0,
+      "min_price": 7760.2,
+      "max_price": 25377.4,
+      "total_change_pct": 9.53
+    },
+    {
+      "symbol": "SCR",
+      "start_price": 20740.7,
+      "end_price": 4110.0,
+      "min_price": 3860.0,
+      "max_price": 24259.3,
+      "total_change_pct": -80.18
+    },
+    {
+      "symbol": "SCS",
+      "start_price": 58558.4,
+      "end_price": 40550.0,
+      "min_price": 39000.0,
+      "max_price": 76281.6,
+      "total_change_pct": -30.75
+    },
+    {
+      "symbol": "SHB",
+      "start_price": 12215.4,
+      "end_price": 10900.0,
+      "min_price": 4810.1,
+      "max_price": 19050.0,
+      "total_change_pct": -10.77
+    },
+    {
+      "symbol": "SSB",
+      "start_price": 21583.4,
+      "end_price": 16650.0,
+      "min_price": 12487.5,
+      "max_price": 24100.0,
+      "total_change_pct": -22.86
+    },
+    {
+      "symbol": "SSI",
+      "start_price": 24188.4,
+      "end_price": 19950.0,
+      "min_price": 7166.1,
+      "max_price": 29921.4,
+      "total_change_pct": -17.52
+    },
+    {
+      "symbol": "STB",
+      "start_price": 32100.0,
+      "end_price": 68500.0,
+      "min_price": 14850.0,
+      "max_price": 78200.0,
+      "total_change_pct": 113.4
+    },
+    {
+      "symbol": "SZC",
+      "start_price": 42563.0,
+      "end_price": 20200.0,
+      "min_price": 13464.3,
+      "max_price": 50351.1,
+      "total_change_pct": -52.54
+    },
+    {
+      "symbol": "TCB",
+      "start_price": 47832.7,
+      "end_price": 34200.0,
+      "min_price": 19452.6,
+      "max_price": 50557.9,
+      "total_change_pct": -28.5
+    },
+    {
+      "symbol": "TCH",
+      "start_price": 16035.1,
+      "end_price": 12000.0,
+      "min_price": 3603.7,
+      "max_price": 22381.0,
+      "total_change_pct": -25.16
+    },
+    {
+      "symbol": "TLG",
+      "start_price": 28517.5,
+      "end_price": 55500.0,
+      "min_price": 24747.4,
+      "max_price": 57523.2,
+      "total_change_pct": 94.62
+    },
+    {
+      "symbol": "TMS",
+      "start_price": 41749.2,
+      "end_price": 31900.0,
+      "min_price": 28555.9,
+      "max_price": 66853.3,
+      "total_change_pct": -23.59
+    },
+    {
+      "symbol": "TPB",
+      "start_price": 16634.9,
+      "end_price": 13000.0,
+      "min_price": 7529.5,
+      "max_price": 17531.7,
+      "total_change_pct": -21.85
+    },
+    {
+      "symbol": "VCB",
+      "start_price": 65861.7,
+      "end_price": 56800.0,
+      "min_price": 51688.9,
+      "max_price": 95899.2,
+      "total_change_pct": -13.76
+    },
+    {
+      "symbol": "VCI",
+      "start_price": 29984.1,
+      "end_price": 19600.0,
+      "min_price": 9273.3,
+      "max_price": 34937.1,
+      "total_change_pct": -34.63
+    },
+    {
+      "symbol": "VGC",
+      "start_price": 44297.0,
+      "end_price": 44500.0,
+      "min_price": 22066.4,
+      "max_price": 60768.5,
+      "total_change_pct": 0.46
+    },
+    {
+      "symbol": "VHC",
+      "start_price": 46554.7,
+      "end_price": 52100.0,
+      "min_price": 40577.4,
+      "max_price": 84745.9,
+      "total_change_pct": 11.91
+    },
+    {
+      "symbol": "VHM",
+      "start_price": 39811.7,
+      "end_price": 64300.0,
+      "min_price": 16611.1,
+      "max_price": 78963.0,
+      "total_change_pct": 61.51
+    },
+    {
+      "symbol": "VIB",
+      "start_price": 16122.0,
+      "end_price": 14200.0,
+      "min_price": 8159.8,
+      "max_price": 20261.3,
+      "total_change_pct": -11.92
+    },
+    {
+      "symbol": "VIC",
+      "start_price": 50500.0,
+      "end_price": 236500.0,
+      "min_price": 19950.0,
+      "max_price": 256100.0,
+      "total_change_pct": 368.32
+    },
+    {
+      "symbol": "VIX",
+      "start_price": 11047.7,
+      "end_price": 12700.0,
+      "min_price": 2557.0,
+      "max_price": 31850.2,
+      "total_change_pct": 14.96
+    },
+    {
+      "symbol": "VJC",
+      "start_price": 96923.1,
+      "end_price": 129700.0,
+      "min_price": 60846.2,
+      "max_price": 168538.5,
+      "total_change_pct": 33.82
+    },
+    {
+      "symbol": "VND",
+      "start_price": 23447.0,
+      "end_price": 13750.0,
+      "min_price": 8856.8,
+      "max_price": 31779.1,
+      "total_change_pct": -41.36
+    },
+    {
+      "symbol": "VNM",
+      "start_price": 65775.6,
+      "end_price": 57600.0,
+      "min_price": 46448.8,
+      "max_price": 71070.8,
+      "total_change_pct": -12.43
+    },
+    {
+      "symbol": "VOS",
+      "start_price": 16449.9,
+      "end_price": 12100.0,
+      "min_price": 5336.5,
+      "max_price": 20033.5,
+      "total_change_pct": -26.44
+    },
+    {
+      "symbol": "VPB",
+      "start_price": 16476.7,
+      "end_price": 24100.0,
+      "min_price": 10043.7,
+      "max_price": 30129.5,
+      "total_change_pct": 46.27
+    },
+    {
+      "symbol": "VPI",
+      "start_price": 37831.5,
+      "end_price": 57400.0,
+      "min_price": 37831.5,
+      "max_price": 63100.0,
+      "total_change_pct": 51.73
+    },
+    {
+      "symbol": "VRE",
+      "start_price": 30083.2,
+      "end_price": 25000.0,
+      "min_price": 15548.6,
+      "max_price": 41913.7,
+      "total_change_pct": -16.9
+    },
+    {
+      "symbol": "VSH",
+      "start_price": 20874.5,
+      "end_price": 41300.0,
+      "min_price": 17927.4,
+      "max_price": 47739.7,
+      "total_change_pct": 97.85
+    }
+  ],
+  "coverage_histogram": {
+    "labels": [
+      "50-60%",
+      "60-70%",
+      "70-80%",
+      "80-90%",
+      "90-95%",
+      "95-100%"
+    ],
+    "counts": [
+      2,
+      0,
+      0,
+      0,
+      0,
+      98
+    ]
+  },
+  "returns_data": {
+    "return_type": "log",
+    "total_return_sessions": 1186,
+    "return_statistics": [
+      {
+        "symbol": "AAA",
+        "mean_daily_return": -0.0816,
+        "annualized_return": -20.55,
+        "annualized_volatility": 36.55,
+        "sharpe_ratio": -0.699,
+        "skewness": -0.401,
+        "kurtosis": 2.081,
+        "min_return": -7.68,
+        "max_return": 6.75
+      },
+      {
+        "symbol": "ACB",
+        "mean_daily_return": 0.0377,
+        "annualized_return": 9.51,
+        "annualized_volatility": 28.71,
+        "sharpe_ratio": 0.157,
+        "skewness": -0.122,
+        "kurtosis": 19.004,
+        "min_return": -17.26,
+        "max_return": 18.17
+      },
+      {
+        "symbol": "AGG",
+        "mean_daily_return": -0.0937,
+        "annualized_return": -23.61,
+        "annualized_volatility": 29.84,
+        "sharpe_ratio": -0.959,
+        "skewness": 0.099,
+        "kurtosis": 4.179,
+        "min_return": -10.24,
+        "max_return": 7.83
+      },
+      {
+        "symbol": "ANV",
+        "mean_daily_return": -0.0442,
+        "annualized_return": -11.14,
+        "annualized_volatility": 57.05,
+        "sharpe_ratio": -0.283,
+        "skewness": -5.962,
+        "kurtosis": 112.804,
+        "min_return": -68.86,
+        "max_return": 11.51
+      },
+      {
+        "symbol": "ASM",
+        "mean_daily_return": -0.0857,
+        "annualized_return": -21.61,
+        "annualized_volatility": 40.94,
+        "sharpe_ratio": -0.65,
+        "skewness": -0.294,
+        "kurtosis": 1.704,
+        "min_return": -9.76,
+        "max_return": 9.53
+      },
+      {
+        "symbol": "BAF",
+        "mean_daily_return": 0.076,
+        "annualized_return": 19.14,
+        "annualized_volatility": 33.52,
+        "sharpe_ratio": 0.422,
+        "skewness": 0.102,
+        "kurtosis": 3.846,
+        "min_return": -8.03,
+        "max_return": 11.26
+      },
+      {
+        "symbol": "BCM",
+        "mean_daily_return": -0.034,
+        "annualized_return": -8.57,
+        "annualized_volatility": 34.78,
+        "sharpe_ratio": -0.39,
+        "skewness": -0.044,
+        "kurtosis": 2.604,
+        "min_return": -7.84,
+        "max_return": 6.77
+      },
+      {
+        "symbol": "BFC",
+        "mean_daily_return": 0.079,
+        "annualized_return": 19.91,
+        "annualized_volatility": 43.73,
+        "sharpe_ratio": 0.341,
+        "skewness": -0.304,
+        "kurtosis": 1.525,
+        "min_return": -14.48,
+        "max_return": 6.94
+      },
+      {
+        "symbol": "BID",
+        "mean_daily_return": 0.0262,
+        "annualized_return": 6.61,
+        "annualized_volatility": 31.71,
+        "sharpe_ratio": 0.051,
+        "skewness": -0.154,
+        "kurtosis": 3.003,
+        "min_return": -8.53,
+        "max_return": 6.75
+      },
+      {
+        "symbol": "BSI",
+        "mean_daily_return": -0.0042,
+        "annualized_return": -1.07,
+        "annualized_volatility": 47.49,
+        "sharpe_ratio": -0.128,
+        "skewness": -0.198,
+        "kurtosis": 1.045,
+        "min_return": -11.98,
+        "max_return": 8.11
+      },
+      {
+        "symbol": "BVH",
+        "mean_daily_return": 0.0272,
+        "annualized_return": 6.87,
+        "annualized_volatility": 34.03,
+        "sharpe_ratio": 0.055,
+        "skewness": 0.122,
+        "kurtosis": 2.636,
+        "min_return": -8.74,
+        "max_return": 7.06
+      },
+      {
+        "symbol": "BWE",
+        "mean_daily_return": 0.0041,
+        "annualized_return": 1.03,
+        "annualized_volatility": 27.49,
+        "sharpe_ratio": -0.144,
+        "skewness": -0.515,
+        "kurtosis": 7.733,
+        "min_return": -14.2,
+        "max_return": 7.12
+      },
+      {
+        "symbol": "CII",
+        "mean_daily_return": -0.0855,
+        "annualized_return": -21.54,
+        "annualized_volatility": 49.9,
+        "sharpe_ratio": -0.532,
+        "skewness": -0.065,
+        "kurtosis": 1.087,
+        "min_return": -10.13,
+        "max_return": 13.39
+      },
+      {
+        "symbol": "CMG",
+        "mean_daily_return": -0.0206,
+        "annualized_return": -5.18,
+        "annualized_volatility": 37.75,
+        "sharpe_ratio": -0.27,
+        "skewness": 0.153,
+        "kurtosis": 2.583,
+        "min_return": -7.26,
+        "max_return": 12.36
+      },
+      {
+        "symbol": "CTD",
+        "mean_daily_return": -0.0039,
+        "annualized_return": -0.99,
+        "annualized_volatility": 44.03,
+        "sharpe_ratio": -0.136,
+        "skewness": -0.192,
+        "kurtosis": 0.975,
+        "min_return": -7.44,
+        "max_return": 7.87
+      },
+      {
+        "symbol": "CTG",
+        "mean_daily_return": 0.0327,
+        "annualized_return": 8.24,
+        "annualized_volatility": 30.84,
+        "sharpe_ratio": 0.105,
+        "skewness": -0.29,
+        "kurtosis": 3.202,
+        "min_return": -9.55,
+        "max_return": 6.76
+      },
+      {
+        "symbol": "CTR",
+        "mean_daily_return": 0.013,
+        "annualized_return": 3.28,
+        "annualized_volatility": 38.06,
+        "sharpe_ratio": -0.045,
+        "skewness": -0.076,
+        "kurtosis": 1.813,
+        "min_return": -7.26,
+        "max_return": 6.92
+      },
+      {
+        "symbol": "CTS",
+        "mean_daily_return": 0.0117,
+        "annualized_return": 2.94,
+        "annualized_volatility": 54.65,
+        "sharpe_ratio": -0.038,
+        "skewness": -0.205,
+        "kurtosis": 16.58,
+        "min_return": -34.53,
+        "max_return": 34.31
+      },
+      {
+        "symbol": "DBC",
+        "mean_daily_return": -0.0289,
+        "annualized_return": -7.28,
+        "annualized_volatility": 44.66,
+        "sharpe_ratio": -0.275,
+        "skewness": -0.132,
+        "kurtosis": 1.726,
+        "min_return": -12.71,
+        "max_return": 15.44
+      },
+      {
+        "symbol": "DCM",
+        "mean_daily_return": 0.0229,
+        "annualized_return": 5.77,
+        "annualized_volatility": 42.69,
+        "sharpe_ratio": 0.018,
+        "skewness": -0.254,
+        "kurtosis": 1.283,
+        "min_return": -7.81,
+        "max_return": 8.45
+      },
+      {
+        "symbol": "DGC",
+        "mean_daily_return": -0.0358,
+        "annualized_return": -9.02,
+        "annualized_volatility": 42.92,
+        "sharpe_ratio": -0.327,
+        "skewness": -0.23,
+        "kurtosis": 1.694,
+        "min_return": -13.69,
+        "max_return": 8.33
+      },
+      {
+        "symbol": "DGW",
+        "mean_daily_return": -0.0272,
+        "annualized_return": -6.85,
+        "annualized_volatility": 47.78,
+        "sharpe_ratio": -0.248,
+        "skewness": -0.726,
+        "kurtosis": 5.909,
+        "min_return": -27.21,
+        "max_return": 6.77
+      },
+      {
+        "symbol": "DIG",
+        "mean_daily_return": -0.161,
+        "annualized_return": -40.56,
+        "annualized_volatility": 53.85,
+        "sharpe_ratio": -0.846,
+        "skewness": -0.088,
+        "kurtosis": 0.495,
+        "min_return": -13.38,
+        "max_return": 13.42
+      },
+      {
+        "symbol": "DPM",
+        "mean_daily_return": 0.0119,
+        "annualized_return": 2.99,
+        "annualized_volatility": 39.23,
+        "sharpe_ratio": -0.051,
+        "skewness": -0.276,
+        "kurtosis": 1.741,
+        "min_return": -7.39,
+        "max_return": 6.97
+      },
+      {
+        "symbol": "DXG",
+        "mean_daily_return": -0.07,
+        "annualized_return": -17.64,
+        "annualized_volatility": 50.73,
+        "sharpe_ratio": -0.446,
+        "skewness": -0.189,
+        "kurtosis": 1.279,
+        "min_return": -15.19,
+        "max_return": 17.06
+      },
+      {
+        "symbol": "DXS",
+        "mean_daily_return": -0.1257,
+        "annualized_return": -31.67,
+        "annualized_volatility": 48.68,
+        "sharpe_ratio": -0.753,
+        "skewness": -0.124,
+        "kurtosis": 0.646,
+        "min_return": -12.76,
+        "max_return": 8.66
+      },
+      {
+        "symbol": "EIB",
+        "mean_daily_return": -0.0233,
+        "annualized_return": -5.87,
+        "annualized_volatility": 39.1,
+        "sharpe_ratio": -0.278,
+        "skewness": -0.295,
+        "kurtosis": 2.887,
+        "min_return": -14.32,
+        "max_return": 8.16
+      },
+      {
+        "symbol": "EVF",
+        "mean_daily_return": -0.0225,
+        "annualized_return": -5.66,
+        "annualized_volatility": 41.01,
+        "sharpe_ratio": -0.26,
+        "skewness": 0.021,
+        "kurtosis": 1.526,
+        "min_return": -10.46,
+        "max_return": 8.48
+      },
+      {
+        "symbol": "FPT",
+        "mean_daily_return": 0.025,
+        "annualized_return": 6.31,
+        "annualized_volatility": 28.74,
+        "sharpe_ratio": 0.046,
+        "skewness": 0.042,
+        "kurtosis": 2.768,
+        "min_return": -7.25,
+        "max_return": 6.74
+      },
+      {
+        "symbol": "FTS",
+        "mean_daily_return": -0.0167,
+        "annualized_return": -4.21,
+        "annualized_volatility": 49.38,
+        "sharpe_ratio": -0.187,
+        "skewness": -0.038,
+        "kurtosis": 0.855,
+        "min_return": -8.49,
+        "max_return": 13.55
+      },
+      {
+        "symbol": "GAS",
+        "mean_daily_return": 0.0141,
+        "annualized_return": 3.55,
+        "annualized_volatility": 34.16,
+        "sharpe_ratio": -0.043,
+        "skewness": 0.13,
+        "kurtosis": 3.43,
+        "min_return": -7.26,
+        "max_return": 10.91
+      },
+      {
+        "symbol": "GEG",
+        "mean_daily_return": -0.0383,
+        "annualized_return": -9.65,
+        "annualized_volatility": 37.23,
+        "sharpe_ratio": -0.393,
+        "skewness": -0.169,
+        "kurtosis": 2.202,
+        "min_return": -7.26,
+        "max_return": 8.7
+      },
+      {
+        "symbol": "GEX",
+        "mean_daily_return": -0.0064,
+        "annualized_return": -1.61,
+        "annualized_volatility": 50.14,
+        "sharpe_ratio": -0.132,
+        "skewness": -0.215,
+        "kurtosis": 0.772,
+        "min_return": -13.4,
+        "max_return": 13.45
+      },
+      {
+        "symbol": "GVR",
+        "mean_daily_return": -0.0086,
+        "annualized_return": -2.16,
+        "annualized_volatility": 45.02,
+        "sharpe_ratio": -0.159,
+        "skewness": -0.326,
+        "kurtosis": 0.955,
+        "min_return": -10.99,
+        "max_return": 7.36
+      },
+      {
+        "symbol": "HAH",
+        "mean_daily_return": 0.0785,
+        "annualized_return": 19.79,
+        "annualized_volatility": 44.02,
+        "sharpe_ratio": 0.336,
+        "skewness": -0.195,
+        "kurtosis": 1.09,
+        "min_return": -10.63,
+        "max_return": 6.76
+      },
+      {
+        "symbol": "HCM",
+        "mean_daily_return": -0.0097,
+        "annualized_return": -2.43,
+        "annualized_volatility": 44.51,
+        "sharpe_ratio": -0.167,
+        "skewness": -0.671,
+        "kurtosis": 4.379,
+        "min_return": -22.57,
+        "max_return": 8.34
+      },
+      {
+        "symbol": "HDB",
+        "mean_daily_return": 0.0832,
+        "annualized_return": 20.97,
+        "annualized_volatility": 35.0,
+        "sharpe_ratio": 0.456,
+        "skewness": 0.72,
+        "kurtosis": 26.731,
+        "min_return": -21.27,
+        "max_return": 26.0
+      },
+      {
+        "symbol": "HDC",
+        "mean_daily_return": -0.104,
+        "annualized_return": -26.21,
+        "annualized_volatility": 47.9,
+        "sharpe_ratio": -0.652,
+        "skewness": -0.172,
+        "kurtosis": 0.891,
+        "min_return": -10.71,
+        "max_return": 8.67
+      },
+      {
+        "symbol": "HDG",
+        "mean_daily_return": -0.0601,
+        "annualized_return": -15.14,
+        "annualized_volatility": 41.96,
+        "sharpe_ratio": -0.48,
+        "skewness": -0.315,
+        "kurtosis": 1.564,
+        "min_return": -11.17,
+        "max_return": 9.53
+      },
+      {
+        "symbol": "HHV",
+        "mean_daily_return": -0.0591,
+        "annualized_return": -14.89,
+        "annualized_volatility": 40.09,
+        "sharpe_ratio": -0.496,
+        "skewness": -0.107,
+        "kurtosis": 2.121,
+        "min_return": -7.87,
+        "max_return": 12.05
+      },
+      {
+        "symbol": "HPG",
+        "mean_daily_return": -0.0108,
+        "annualized_return": -2.72,
+        "annualized_volatility": 32.84,
+        "sharpe_ratio": -0.235,
+        "skewness": -0.078,
+        "kurtosis": 2.673,
+        "min_return": -8.11,
+        "max_return": 6.71
+      },
+      {
+        "symbol": "HSG",
+        "mean_daily_return": -0.0584,
+        "annualized_return": -14.72,
+        "annualized_volatility": 43.56,
+        "sharpe_ratio": -0.453,
+        "skewness": -0.162,
+        "kurtosis": 1.14,
+        "min_return": -8.46,
+        "max_return": 6.76
+      },
+      {
+        "symbol": "KBC",
+        "mean_daily_return": -0.045,
+        "annualized_return": -11.34,
+        "annualized_volatility": 40.64,
+        "sharpe_ratio": -0.402,
+        "skewness": -0.316,
+        "kurtosis": 1.682,
+        "min_return": -9.94,
+        "max_return": 7.96
+      },
+      {
+        "symbol": "KDC",
+        "mean_daily_return": 0.0007,
+        "annualized_return": 0.17,
+        "annualized_volatility": 18.28,
+        "sharpe_ratio": -0.264,
+        "skewness": 0.726,
+        "kurtosis": 10.142,
+        "min_return": -7.47,
+        "max_return": 6.73
+      },
+      {
+        "symbol": "KDH",
+        "mean_daily_return": -0.0679,
+        "annualized_return": -17.11,
+        "annualized_volatility": 35.49,
+        "sharpe_ratio": -0.623,
+        "skewness": -0.098,
+        "kurtosis": 2.395,
+        "min_return": -8.07,
+        "max_return": 9.21
+      },
+      {
+        "symbol": "KOS",
+        "mean_daily_return": -0.1567,
+        "annualized_return": -39.49,
+        "annualized_volatility": 20.36,
+        "sharpe_ratio": -2.185,
+        "skewness": -3.743,
+        "kurtosis": 18.391,
+        "min_return": -7.25,
+        "max_return": 5.09
+      },
+      {
+        "symbol": "LPB",
+        "mean_daily_return": 0.1048,
+        "annualized_return": 26.42,
+        "annualized_volatility": 38.41,
+        "sharpe_ratio": 0.558,
+        "skewness": -0.185,
+        "kurtosis": 2.588,
+        "min_return": -14.18,
+        "max_return": 6.76
+      },
+      {
+        "symbol": "MBB",
+        "mean_daily_return": 0.05,
+        "annualized_return": 12.59,
+        "annualized_volatility": 29.92,
+        "sharpe_ratio": 0.254,
+        "skewness": -0.366,
+        "kurtosis": 3.635,
+        "min_return": -7.44,
+        "max_return": 6.74
+      },
+      {
+        "symbol": "MSB",
+        "mean_daily_return": 0.0239,
+        "annualized_return": 6.03,
+        "annualized_volatility": 30.22,
+        "sharpe_ratio": 0.034,
+        "skewness": -0.496,
+        "kurtosis": 4.219,
+        "min_return": -10.72,
+        "max_return": 6.77
+      },
+      {
+        "symbol": "MSN",
+        "mean_daily_return": -0.0539,
+        "annualized_return": -13.59,
+        "annualized_volatility": 34.08,
+        "sharpe_ratio": -0.545,
+        "skewness": -0.196,
+        "kurtosis": 2.127,
+        "min_return": -7.41,
+        "max_return": 7.63
+      },
+      {
+        "symbol": "MWG",
+        "mean_daily_return": 0.0134,
+        "annualized_return": 3.37,
+        "annualized_volatility": 35.74,
+        "sharpe_ratio": -0.046,
+        "skewness": -0.262,
+        "kurtosis": 1.901,
+        "min_return": -7.25,
+        "max_return": 6.76
+      },
+      {
+        "symbol": "NKG",
+        "mean_daily_return": -0.0563,
+        "annualized_return": -14.18,
+        "annualized_volatility": 45.13,
+        "sharpe_ratio": -0.425,
+        "skewness": -0.177,
+        "kurtosis": 0.888,
+        "min_return": -8.66,
+        "max_return": 8.76
+      },
+      {
+        "symbol": "NLG",
+        "mean_daily_return": -0.0797,
+        "annualized_return": -20.08,
+        "annualized_volatility": 43.37,
+        "sharpe_ratio": -0.578,
+        "skewness": -0.122,
+        "kurtosis": 2.227,
+        "min_return": -15.67,
+        "max_return": 14.57
+      },
+      {
+        "symbol": "NT2",
+        "mean_daily_return": 0.0116,
+        "annualized_return": 2.92,
+        "annualized_volatility": 33.2,
+        "sharpe_ratio": -0.063,
+        "skewness": -0.098,
+        "kurtosis": 2.694,
+        "min_return": -7.26,
+        "max_return": 8.08
+      },
+      {
+        "symbol": "NVL",
+        "mean_daily_return": -0.1733,
+        "annualized_return": -43.67,
+        "annualized_volatility": 44.73,
+        "sharpe_ratio": -1.088,
+        "skewness": -0.113,
+        "kurtosis": 0.968,
+        "min_return": -7.25,
+        "max_return": 10.27
+      },
+      {
+        "symbol": "OCB",
+        "mean_daily_return": -0.0079,
+        "annualized_return": -1.98,
+        "annualized_volatility": 31.07,
+        "sharpe_ratio": -0.225,
+        "skewness": -0.284,
+        "kurtosis": 3.971,
+        "min_return": -9.24,
+        "max_return": 9.93
+      },
+      {
+        "symbol": "PAN",
+        "mean_daily_return": -0.0369,
+        "annualized_return": -9.3,
+        "annualized_volatility": 36.49,
+        "sharpe_ratio": -0.392,
+        "skewness": -0.38,
+        "kurtosis": 2.402,
+        "min_return": -7.46,
+        "max_return": 9.8
+      },
+      {
+        "symbol": "PC1",
+        "mean_daily_return": -0.0142,
+        "annualized_return": -3.57,
+        "annualized_volatility": 43.81,
+        "sharpe_ratio": -0.196,
+        "skewness": -0.285,
+        "kurtosis": 1.615,
+        "min_return": -14.34,
+        "max_return": 9.84
+      },
+      {
+        "symbol": "PDR",
+        "mean_daily_return": -0.1321,
+        "annualized_return": -33.28,
+        "annualized_volatility": 43.21,
+        "sharpe_ratio": -0.886,
+        "skewness": -0.07,
+        "kurtosis": 1.676,
+        "min_return": -10.54,
+        "max_return": 12.91
+      },
+      {
+        "symbol": "PET",
+        "mean_daily_return": 0.0859,
+        "annualized_return": 21.64,
+        "annualized_volatility": 51.6,
+        "sharpe_ratio": 0.322,
+        "skewness": -0.155,
+        "kurtosis": 0.62,
+        "min_return": -11.93,
+        "max_return": 10.08
+      },
+      {
+        "symbol": "PHR",
+        "mean_daily_return": 0.0034,
+        "annualized_return": 0.85,
+        "annualized_volatility": 38.11,
+        "sharpe_ratio": -0.109,
+        "skewness": -0.38,
+        "kurtosis": 2.08,
+        "min_return": -9.13,
+        "max_return": 6.76
+      },
+      {
+        "symbol": "PLX",
+        "mean_daily_return": -0.0247,
+        "annualized_return": -6.24,
+        "annualized_volatility": 35.79,
+        "sharpe_ratio": -0.314,
+        "skewness": 0.23,
+        "kurtosis": 3.461,
+        "min_return": -7.24,
+        "max_return": 13.39
+      },
+      {
+        "symbol": "PNJ",
+        "mean_daily_return": -0.0776,
+        "annualized_return": -19.56,
+        "annualized_volatility": 36.05,
+        "sharpe_ratio": -0.681,
+        "skewness": -0.375,
+        "kurtosis": 2.784,
+        "min_return": -9.32,
+        "max_return": 6.77
+      },
+      {
+        "symbol": "POW",
+        "mean_daily_return": -0.019,
+        "annualized_return": -4.78,
+        "annualized_volatility": 34.97,
+        "sharpe_ratio": -0.28,
+        "skewness": -0.256,
+        "kurtosis": 2.806,
+        "min_return": -9.71,
+        "max_return": 10.54
+      },
+      {
+        "symbol": "PTB",
+        "mean_daily_return": -0.0218,
+        "annualized_return": -5.49,
+        "annualized_volatility": 31.46,
+        "sharpe_ratio": -0.334,
+        "skewness": -0.171,
+        "kurtosis": 2.624,
+        "min_return": -7.26,
+        "max_return": 6.77
+      },
+      {
+        "symbol": "PVD",
+        "mean_daily_return": 0.0256,
+        "annualized_return": 6.45,
+        "annualized_volatility": 44.03,
+        "sharpe_ratio": 0.033,
+        "skewness": -0.159,
+        "kurtosis": 1.362,
+        "min_return": -8.13,
+        "max_return": 12.15
+      },
+      {
+        "symbol": "PVT",
+        "mean_daily_return": 0.0362,
+        "annualized_return": 9.12,
+        "annualized_volatility": 41.14,
+        "sharpe_ratio": 0.1,
+        "skewness": -0.195,
+        "kurtosis": 1.745,
+        "min_return": -7.26,
+        "max_return": 13.28
+      },
+      {
+        "symbol": "REE",
+        "mean_daily_return": 0.0533,
+        "annualized_return": 13.43,
+        "annualized_volatility": 33.22,
+        "sharpe_ratio": 0.254,
+        "skewness": 0.278,
+        "kurtosis": 6.904,
+        "min_return": -12.52,
+        "max_return": 14.64
+      },
+      {
+        "symbol": "SAB",
+        "mean_daily_return": -0.024,
+        "annualized_return": -6.04,
+        "annualized_volatility": 25.65,
+        "sharpe_ratio": -0.43,
+        "skewness": 0.214,
+        "kurtosis": 3.929,
+        "min_return": -7.25,
+        "max_return": 6.76
+      },
+      {
+        "symbol": "SBT",
+        "mean_daily_return": 0.0077,
+        "annualized_return": 1.93,
+        "annualized_volatility": 32.55,
+        "sharpe_ratio": -0.094,
+        "skewness": -0.305,
+        "kurtosis": 3.267,
+        "min_return": -7.25,
+        "max_return": 7.92
+      },
+      {
+        "symbol": "SCR",
+        "mean_daily_return": -0.1365,
+        "annualized_return": -34.39,
+        "annualized_volatility": 44.97,
+        "sharpe_ratio": -0.876,
+        "skewness": -0.229,
+        "kurtosis": 0.968,
+        "min_return": -7.61,
+        "max_return": 8.2
+      },
+      {
+        "symbol": "SCS",
+        "mean_daily_return": -0.031,
+        "annualized_return": -7.81,
+        "annualized_volatility": 24.13,
+        "sharpe_ratio": -0.531,
+        "skewness": 0.146,
+        "kurtosis": 4.86,
+        "min_return": -7.46,
+        "max_return": 6.73
+      },
+      {
+        "symbol": "SHB",
+        "mean_daily_return": -0.0096,
+        "annualized_return": -2.42,
+        "annualized_volatility": 34.62,
+        "sharpe_ratio": -0.214,
+        "skewness": -0.267,
+        "kurtosis": 3.592,
+        "min_return": -12.66,
+        "max_return": 8.95
+      },
+      {
+        "symbol": "SSB",
+        "mean_daily_return": -0.0219,
+        "annualized_return": -5.51,
+        "annualized_volatility": 26.28,
+        "sharpe_ratio": -0.4,
+        "skewness": -0.311,
+        "kurtosis": 6.862,
+        "min_return": -10.73,
+        "max_return": 6.76
+      },
+      {
+        "symbol": "SSI",
+        "mean_daily_return": -0.0162,
+        "annualized_return": -4.09,
+        "annualized_volatility": 40.88,
+        "sharpe_ratio": -0.222,
+        "skewness": -0.116,
+        "kurtosis": 1.755,
+        "min_return": -8.58,
+        "max_return": 11.22
+      },
+      {
+        "symbol": "STB",
+        "mean_daily_return": 0.0639,
+        "annualized_return": 16.11,
+        "annualized_volatility": 37.83,
+        "sharpe_ratio": 0.294,
+        "skewness": -0.165,
+        "kurtosis": 1.879,
+        "min_return": -8.67,
+        "max_return": 7.27
+      },
+      {
+        "symbol": "SZC",
+        "mean_daily_return": -0.0628,
+        "annualized_return": -15.84,
+        "annualized_volatility": 42.71,
+        "sharpe_ratio": -0.488,
+        "skewness": -0.377,
+        "kurtosis": 1.252,
+        "min_return": -7.76,
+        "max_return": 6.76
+      },
+      {
+        "symbol": "TCB",
+        "mean_daily_return": -0.0283,
+        "annualized_return": -7.13,
+        "annualized_volatility": 45.47,
+        "sharpe_ratio": -0.267,
+        "skewness": -11.619,
+        "kurtosis": 274.099,
+        "min_return": -68.4,
+        "max_return": 7.05
+      },
+      {
+        "symbol": "TCH",
+        "mean_daily_return": -0.0244,
+        "annualized_return": -6.16,
+        "annualized_volatility": 47.91,
+        "sharpe_ratio": -0.233,
+        "skewness": -0.09,
+        "kurtosis": 1.65,
+        "min_return": -12.08,
+        "max_return": 15.46
+      },
+      {
+        "symbol": "TLG",
+        "mean_daily_return": 0.0561,
+        "annualized_return": 14.15,
+        "annualized_volatility": 33.0,
+        "sharpe_ratio": 0.277,
+        "skewness": -0.009,
+        "kurtosis": 2.89,
+        "min_return": -7.26,
+        "max_return": 9.44
+      },
+      {
+        "symbol": "TMS",
+        "mean_daily_return": -0.0227,
+        "annualized_return": -5.72,
+        "annualized_volatility": 32.69,
+        "sharpe_ratio": -0.328,
+        "skewness": -0.013,
+        "kurtosis": 2.828,
+        "min_return": -7.22,
+        "max_return": 6.76
+      },
+      {
+        "symbol": "TPB",
+        "mean_daily_return": -0.0208,
+        "annualized_return": -5.24,
+        "annualized_volatility": 32.55,
+        "sharpe_ratio": -0.315,
+        "skewness": -0.377,
+        "kurtosis": 3.161,
+        "min_return": -10.54,
+        "max_return": 7.02
+      },
+      {
+        "symbol": "VCB",
+        "mean_daily_return": -0.0125,
+        "annualized_return": -3.15,
+        "annualized_volatility": 30.76,
+        "sharpe_ratio": -0.265,
+        "skewness": -7.455,
+        "kurtosis": 157.006,
+        "min_return": -40.21,
+        "max_return": 6.73
+      },
+      {
+        "symbol": "VCI",
+        "mean_daily_return": -0.0358,
+        "annualized_return": -9.03,
+        "annualized_volatility": 45.39,
+        "sharpe_ratio": -0.309,
+        "skewness": -0.217,
+        "kurtosis": 1.04,
+        "min_return": -11.3,
+        "max_return": 8.12
+      },
+      {
+        "symbol": "VGC",
+        "mean_daily_return": 0.0004,
+        "annualized_return": 0.1,
+        "annualized_volatility": 45.49,
+        "sharpe_ratio": -0.108,
+        "skewness": -0.204,
+        "kurtosis": 1.571,
+        "min_return": -12.52,
+        "max_return": 13.35
+      },
+      {
+        "symbol": "VHC",
+        "mean_daily_return": 0.0095,
+        "annualized_return": 2.39,
+        "annualized_volatility": 38.15,
+        "sharpe_ratio": -0.068,
+        "skewness": -0.227,
+        "kurtosis": 1.765,
+        "min_return": -7.26,
+        "max_return": 7.42
+      },
+      {
+        "symbol": "VHM",
+        "mean_daily_return": 0.0404,
+        "annualized_return": 10.19,
+        "annualized_volatility": 39.59,
+        "sharpe_ratio": 0.131,
+        "skewness": -0.024,
+        "kurtosis": 2.204,
+        "min_return": -12.19,
+        "max_return": 7.7
+      },
+      {
+        "symbol": "VIB",
+        "mean_daily_return": -0.0107,
+        "annualized_return": -2.7,
+        "annualized_volatility": 31.1,
+        "sharpe_ratio": -0.247,
+        "skewness": -0.261,
+        "kurtosis": 5.785,
+        "min_return": -12.4,
+        "max_return": 12.84
+      },
+      {
+        "symbol": "VIC",
+        "mean_daily_return": 0.1302,
+        "annualized_return": 32.81,
+        "annualized_volatility": 39.03,
+        "sharpe_ratio": 0.712,
+        "skewness": 0.279,
+        "kurtosis": 3.036,
+        "min_return": -9.12,
+        "max_return": 13.48
+      },
+      {
+        "symbol": "VIX",
+        "mean_daily_return": 0.0118,
+        "annualized_return": 2.96,
+        "annualized_volatility": 52.65,
+        "sharpe_ratio": -0.039,
+        "skewness": 0.018,
+        "kurtosis": 0.93,
+        "min_return": -11.76,
+        "max_return": 15.65
+      },
+      {
+        "symbol": "VJC",
+        "mean_daily_return": 0.0246,
+        "annualized_return": 6.19,
+        "annualized_volatility": 29.38,
+        "sharpe_ratio": 0.04,
+        "skewness": 0.838,
+        "kurtosis": 4.395,
+        "min_return": -7.2,
+        "max_return": 10.8
+      },
+      {
+        "symbol": "VND",
+        "mean_daily_return": -0.045,
+        "annualized_return": -11.34,
+        "annualized_volatility": 48.3,
+        "sharpe_ratio": -0.338,
+        "skewness": 0.838,
+        "kurtosis": 10.64,
+        "min_return": -11.42,
+        "max_return": 31.71
+      },
+      {
+        "symbol": "VNM",
+        "mean_daily_return": -0.0112,
+        "annualized_return": -2.82,
+        "annualized_volatility": 24.31,
+        "sharpe_ratio": -0.322,
+        "skewness": 0.133,
+        "kurtosis": 4.941,
+        "min_return": -10.68,
+        "max_return": 6.72
+      },
+      {
+        "symbol": "VOS",
+        "mean_daily_return": -0.0259,
+        "annualized_return": -6.53,
+        "annualized_volatility": 48.98,
+        "sharpe_ratio": -0.235,
+        "skewness": 0.043,
+        "kurtosis": 0.88,
+        "min_return": -9.56,
+        "max_return": 13.31
+      },
+      {
+        "symbol": "VPB",
+        "mean_daily_return": 0.0321,
+        "annualized_return": 8.08,
+        "annualized_volatility": 33.63,
+        "sharpe_ratio": 0.092,
+        "skewness": -0.448,
+        "kurtosis": 4.927,
+        "min_return": -14.3,
+        "max_return": 9.43
+      },
+      {
+        "symbol": "VPI",
+        "mean_daily_return": 0.0352,
+        "annualized_return": 8.86,
+        "annualized_volatility": 23.49,
+        "sharpe_ratio": 0.164,
+        "skewness": 0.149,
+        "kurtosis": 2.899,
+        "min_return": -7.11,
+        "max_return": 6.47
+      },
+      {
+        "symbol": "VRE",
+        "mean_daily_return": -0.0156,
+        "annualized_return": -3.93,
+        "annualized_volatility": 40.78,
+        "sharpe_ratio": -0.219,
+        "skewness": -0.042,
+        "kurtosis": 2.188,
+        "min_return": -12.89,
+        "max_return": 12.36
+      },
+      {
+        "symbol": "VSH",
+        "mean_daily_return": 0.0575,
+        "annualized_return": 14.5,
+        "annualized_volatility": 27.53,
+        "sharpe_ratio": 0.345,
+        "skewness": -0.45,
+        "kurtosis": 6.463,
+        "min_return": -7.26,
+        "max_return": 6.76
+      }
+    ],
+    "return_histogram": {
+      "bins": [
+        -7.0,
+        -6.65,
+        -6.3,
+        -5.95,
+        -5.6,
+        -5.25,
+        -4.9,
+        -4.55,
+        -4.2,
+        -3.85,
+        -3.5,
+        -3.15,
+        -2.8,
+        -2.45,
+        -2.1,
+        -1.75,
+        -1.4,
+        -1.05,
+        -0.7,
+        -0.35,
+        0.0,
+        0.35,
+        0.7,
+        1.05,
+        1.4,
+        1.75,
+        2.1,
+        2.45,
+        2.8,
+        3.15,
+        3.5,
+        3.85,
+        4.2,
+        4.55,
+        4.9,
+        5.25,
+        5.6,
+        5.95,
+        6.3,
+        6.65
+      ],
+      "counts": [
+        448,
+        285,
+        316,
+        318,
+        336,
+        417,
+        520,
+        643,
+        767,
+        919,
+        1183,
+        1527,
+        1936,
+        2514,
+        3457,
+        4554,
+        5812,
+        7483,
+        8679,
+        7203,
+        20160,
+        8303,
+        6733,
+        5346,
+        4346,
+        3457,
+        2735,
+        2145,
+        1766,
+        1442,
+        1212,
+        966,
+        763,
+        643,
+        490,
+        371,
+        348,
+        306,
+        1078,
+        1481
+      ]
+    },
+    "mean_market_annual_return": -3.65,
+    "mean_market_annual_volatility": 38.54,
+    "mean_market_sharpe": -0.222,
+    "sample_returns_head": {
+      "dates": [
+        "2022-01-05",
+        "2022-01-06",
+        "2022-01-07",
+        "2022-01-10",
+        "2022-01-11"
+      ],
+      "symbols": [
+        "AAA",
+        "ACB",
+        "AGG",
+        "ANV",
+        "ASM",
+        "BAF",
+        "BCM",
+        "BFC",
+        "BID",
+        "BSI"
+      ],
+      "rows": [
+        [
+          1.2,
+          -2.06,
+          2.45,
+          5.0,
+          6.73,
+          6.71,
+          0.3,
+          -0.15,
+          -0.94,
+          0.35
+        ],
+        [
+          6.69,
+          0.15,
+          0.19,
+          -1.26,
+          0.81,
+          6.59,
+          6.74,
+          -1.81,
+          2.53,
+          -3.7
+        ],
+        [
+          1.77,
+          -1.34,
+          1.11,
+          -0.28,
+          0.8,
+          6.74,
+          6.71,
+          -2.16,
+          3.11,
+          1.57
+        ],
+        [
+          -7.04,
+          -0.9,
+          2.54,
+          -5.38,
+          -4.92,
+          1.11,
+          -7.14,
+          -4.46,
+          -0.9,
+          -5.03
+        ],
+        [
+          -6.06,
+          -0.76,
+          6.76,
+          -4.43,
+          -3.42,
+          -1.86,
+          6.74,
+          -2.14,
+          1.41,
+          -2.55
+        ]
+      ]
+    }
+  },
+  "relations_data": {
+    "top_correlated_pairs": [
+      {
+        "stock1": "HSG",
+        "stock2": "NKG",
+        "correlation": 0.8873,
+        "mantegna_distance": 0.4747
+      },
+      {
+        "stock1": "DCM",
+        "stock2": "DPM",
+        "correlation": 0.8625,
+        "mantegna_distance": 0.5244
+      },
+      {
+        "stock1": "SSI",
+        "stock2": "VCI",
+        "correlation": 0.8197,
+        "mantegna_distance": 0.6004
+      },
+      {
+        "stock1": "HCM",
+        "stock2": "VCI",
+        "correlation": 0.7979,
+        "mantegna_distance": 0.6357
+      },
+      {
+        "stock1": "SSI",
+        "stock2": "VND",
+        "correlation": 0.7936,
+        "mantegna_distance": 0.6425
+      },
+      {
+        "stock1": "BSI",
+        "stock2": "FTS",
+        "correlation": 0.7849,
+        "mantegna_distance": 0.6559
+      },
+      {
+        "stock1": "HCM",
+        "stock2": "SSI",
+        "correlation": 0.7839,
+        "mantegna_distance": 0.6574
+      },
+      {
+        "stock1": "HPG",
+        "stock2": "HSG",
+        "correlation": 0.7678,
+        "mantegna_distance": 0.6815
+      },
+      {
+        "stock1": "BSI",
+        "stock2": "VCI",
+        "correlation": 0.7528,
+        "mantegna_distance": 0.7031
+      },
+      {
+        "stock1": "FTS",
+        "stock2": "VCI",
+        "correlation": 0.7512,
+        "mantegna_distance": 0.7054
+      }
+    ],
+    "bottom_correlated_pairs": [
+      {
+        "stock1": "KOS",
+        "stock2": "TPB",
+        "correlation": 0.0185,
+        "mantegna_distance": 1.4011
+      },
+      {
+        "stock1": "AGG",
+        "stock2": "VSH",
+        "correlation": 0.0128,
+        "mantegna_distance": 1.4051
+      },
+      {
+        "stock1": "ANV",
+        "stock2": "KOS",
+        "correlation": 0.0126,
+        "mantegna_distance": 1.4053
+      },
+      {
+        "stock1": "KOS",
+        "stock2": "MSN",
+        "correlation": 0.0109,
+        "mantegna_distance": 1.4065
+      },
+      {
+        "stock1": "CTD",
+        "stock2": "KOS",
+        "correlation": 0.0098,
+        "mantegna_distance": 1.4073
+      },
+      {
+        "stock1": "KDC",
+        "stock2": "VIC",
+        "correlation": 0.0098,
+        "mantegna_distance": 1.4073
+      },
+      {
+        "stock1": "KOS",
+        "stock2": "MSB",
+        "correlation": 0.0069,
+        "mantegna_distance": 1.4093
+      },
+      {
+        "stock1": "KOS",
+        "stock2": "VJC",
+        "correlation": 0.0061,
+        "mantegna_distance": 1.4099
+      },
+      {
+        "stock1": "KOS",
+        "stock2": "NT2",
+        "correlation": 0.002,
+        "mantegna_distance": 1.4128
+      },
+      {
+        "stock1": "KOS",
+        "stock2": "PET",
+        "correlation": -0.015,
+        "mantegna_distance": 1.4248
+      }
+    ],
+    "distance_histogram": {
+      "bins": [
+        0.0,
+        0.07,
+        0.13,
+        0.2,
+        0.27,
+        0.33,
+        0.4,
+        0.47,
+        0.53,
+        0.6,
+        0.67,
+        0.73,
+        0.8,
+        0.87,
+        0.93,
+        1.0,
+        1.07,
+        1.13,
+        1.2,
+        1.27,
+        1.33,
+        1.4,
+        1.47,
+        1.53,
+        1.6,
+        1.67,
+        1.73,
+        1.8,
+        1.87,
+        1.93
+      ],
+      "counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        5,
+        6,
+        22,
+        44,
+        134,
+        396,
+        648,
+        995,
+        1086,
+        798,
+        453,
+        154,
+        10,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "mean_pairwise_correlation": 0.3491,
+    "mean_mantegna_distance": 1.1349
+  }
+}

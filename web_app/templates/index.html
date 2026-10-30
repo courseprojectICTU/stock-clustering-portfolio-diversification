@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VN100 Feature Extraction & Mantegna Relational Studio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            },
+            darkBg: '#090d16',
+            darkCard: '#111827',
+            darkBorder: '#1f293d',
+            accentGreen: '#10b981',
+            accentCyan: '#06b6d4',
+            accentRose: '#f43f5e',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #090d16; color: #e2e8f0; }
+    .glass-card {
+      background: rgba(17, 24, 39, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid #1f293d;
+    }
+    .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scroll::-webkit-scrollbar-track { background: #0b1120; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #27354f; border-radius: 3px; }
+  </style>
+</head>
+<body class="min-h-screen font-sans selection:bg-brand-500 selection:text-white">
+
+  <!-- Header -->
+  <header class="border-b border-darkBorder bg-darkBg/90 sticky top-0 z-50 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 via-indigo-500 to-accentCyan flex items-center justify-center shadow-lg shadow-brand-500/20 font-bold text-white text-lg">
+          ML
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">
+            VN100 Feature Extraction & Relational Studio
+            <span class="text-xs font-mono font-medium px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Bước 3.2: Mantegna Distance Space</span>
+          </h1>
+          <p class="text-xs text-slate-400">Lợi suất logarit r_t • Tương quan Pearson C &isin; [-1, 1] • Không gian Siêu mêtric Mantegna d &isin; [0, 2] (Thỏa mãn 4 Tiên đề Metric)</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <span id="statusIndicator" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
+          <span class="w-2 h-2 rounded-full bg-slate-400"></span> Đang nạp dữ liệu...
+        </span>
+        <button onclick="triggerPipeline()" id="btnRun" class="flex items-center gap-2 px-5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-medium text-sm shadow-lg shadow-emerald-600/30 transition-all duration-200 active:scale-95 disabled:opacity-50">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          Chạy Pipeline Bước 3.2 (Tương Quan & Mantegna)
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+
+    <!-- Parameters Control Bar -->
+    <div class="glass-card rounded-2xl p-5 shadow-xl">
+      <div class="flex items-center justify-between border-b border-darkBorder/60 pb-3 mb-4">
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+          <h2 class="text-sm font-semibold text-white uppercase tracking-wider">Cấu Hình Mô Hình Hóa Quan Hệ & Không Gian Mêtric</h2>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-emerald-400 font-mono bg-emerald-500/10 px-2.5 py-1 rounded-md border border-emerald-500/20">
+            Mục 3.1: BẬT Lợi Suất Logarit
+          </span>
+          <span class="text-xs text-teal-300 font-mono bg-teal-500/10 px-2.5 py-1 rounded-md border border-teal-500/20">
+            Mục 3.2: ĐÃ KÍCH HOẠT Tương quan & Mantegna
+          </span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <!-- Return Type -->
+        <div class="space-y-2">
+          <label for="returnType" class="block text-xs font-medium text-slate-300">Công thức Lợi suất:</label>
+          <select id="returnType" class="w-full bg-slate-800/80 border border-slate-700 text-slate-200 text-xs rounded-xl px-3 py-2 focus:ring-brand-500 focus:border-brand-500">
+            <option value="log" selected>Log Return r_t = ln(P_t / P_{t-1}) (Chuẩn Markowitz)</option>
+            <option value="simple">Simple Return R_t = (P_t - P_{t-1}) / P_{t-1}</option>
+          </select>
+          <p class="text-[11px] text-slate-500">Khử tính không dừng, tính cộng dồn thời gian & đối xứng.</p>
+        </div>
+
+        <!-- Metric Formula -->
+        <div class="space-y-2">
+          <label class="block text-xs font-medium text-slate-300">Độ đo Khoảng cách (Metric):</label>
+          <div class="text-xs font-mono text-emerald-300 bg-slate-800/80 border border-slate-700 px-3 py-2 rounded-xl flex items-center justify-between">
+            <span>Mantegna: <strong>&radic;[2(1 - &rho;)]</strong></span>
+            <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded">Metric Space</span>
+          </div>
+          <p class="text-[11px] text-slate-500">Thỏa mãn 4 tiên đề mêtric (Bảo đảm không bị đảo ngược cây Dendrogram).</p>
+        </div>
+
+        <!-- Status of Step 3.1 -->
+        <div class="space-y-2 bg-emerald-950/20 p-2.5 rounded-xl border border-emerald-500/20">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-emerald-300 font-medium">Ma trận Đặc trưng Lợi suất:</span>
+            <span class="font-mono text-emerald-400 font-bold">1.186 &times; 98</span>
+          </div>
+          <p class="text-[11px] text-slate-400">Xuất bản tập đặc trưng tại <code>log_returns.csv</code></p>
+        </div>
+
+        <!-- Status of Step 3.2 -->
+        <div class="space-y-2 bg-teal-950/30 p-2.5 rounded-xl border border-teal-500/30">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-teal-300 font-medium">Ma trận Mantegna & Tương quan:</span>
+            <span class="font-mono text-teal-400 font-bold">98 &times; 98 ĐÃ BẬT</span>
+          </div>
+          <p class="text-[11px] text-teal-200/70">Xuất bản <code>correlation_matrix.csv</code> & <code>mantegna_distance_matrix.csv</code></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparative KPI Metrics -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- Metric 1: Stocks count -->
+      <div class="glass-card rounded-2xl p-4 flex flex-col justify-between border-l-4 border-l-brand-500">
+        <div class="flex items-center justify-between text-xs text-slate-400 font-medium">
+          <span>SỐ MÃ CỔ PHIẾU VN100</span>
+          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-brand-500/10 text-brand-400 border border-brand-500/20">Entities</span>
+        </div>
+        <div class="my-2 flex items-baseline gap-2">
+          <span id="metricStocksCount" class="text-3xl font-extrabold font-mono text-white">98</span>
+          <span class="text-xs text-slate-400">mã đạt chuẩn</span>
+        </div>
+        <div class="text-[11px] text-slate-400 flex items-center justify-between">
+          <span>Độ bao phủ lịch sử:</span>
+          <span class="font-mono text-slate-300">&ge; 98% số phiên</span>
+        </div>
+      </div>
+
+      <!-- Metric 2: Mean Correlation -->
+      <div class="glass-card rounded-2xl p-4 flex flex-col justify-between border-l-4 border-l-accentCyan">
+        <div class="flex items-center justify-between text-xs text-slate-400 font-medium">
+          <span>TƯƠNG QUAN TB THỊ TRƯỜNG</span>
+          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">&rho;&#772; (Pearson)</span>
+        </div>
+        <div class="my-2 flex items-baseline gap-2">
+          <span id="metricMeanCorr" class="text-3xl font-extrabold font-mono text-accentCyan">0.3168</span>
+          <span class="text-xs text-slate-400">đồng pha vừa</span>
+        </div>
+        <div class="text-[11px] text-slate-400 flex items-center justify-between">
+          <span>Độ đo tương đồng:</span>
+          <span class="font-mono text-cyan-300">&isin; [-1, 1]</span>
+        </div>
+      </div>
+
+      <!-- Metric 3: Mean Mantegna Distance -->
+      <div class="glass-card rounded-2xl p-4 flex flex-col justify-between border-l-4 border-l-accentGreen">
+        <div class="flex items-center justify-between text-xs text-slate-400 font-medium">
+          <span>KHOẢNG CÁCH MANTEGNA TB</span>
+          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">d&#772; (Mantegna)</span>
+        </div>
+        <div class="my-2 flex items-baseline gap-2">
+          <span id="metricMeanDist" class="text-3xl font-extrabold font-mono text-emerald-400">1.1541</span>
+          <span class="text-xs text-slate-400 font-mono">/ 2.0</span>
+        </div>
+        <div class="text-[11px] text-slate-400 flex items-center justify-between">
+          <span>Khoảng cách trực giao:</span>
+          <span class="font-mono text-emerald-300">&radic;2 &approx; 1.414</span>
+        </div>
+      </div>
+
+      <!-- Metric 4: Risk & Return Baseline -->
+      <div class="glass-card rounded-2xl p-4 flex flex-col justify-between border-l-4 border-l-accentRose">
+        <div class="flex items-center justify-between text-xs text-slate-400 font-medium">
+          <span>LỢI SUẤT & BIẾN ĐỘNG NĂM TB</span>
+          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20">Risk-Return</span>
+        </div>
+        <div class="my-2 flex items-baseline gap-2">
+          <span id="metricMeanReturn" class="text-2xl font-extrabold font-mono text-rose-400">-3.65%</span>
+          <span class="text-xs text-slate-400 font-mono">/ 38.5% vol</span>
+        </div>
+        <div class="text-[11px] text-slate-400 flex items-center justify-between">
+          <span>Tỷ số Sharpe TB:</span>
+          <span id="metricMeanSharpe" class="font-mono font-semibold text-slate-200">-0.222</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Chart 1: Mantegna Distance Distribution Histogram -->
+      <div class="glass-card rounded-2xl p-5 space-y-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-sm font-semibold text-white">Phân Phối Khoảng Cách Siêu Mêtric Mantegna Toàn Thị Trường</h3>
+            <p class="text-xs text-slate-400">4.753 cặp khoảng cách d &isin; [0, 2]. Tập trung quanh 1.15 &ndash; 1.41 (Trực giao)</p>
+          </div>
+          <span class="text-xs font-mono text-teal-400 bg-teal-500/10 px-2 py-1 rounded-md border border-teal-500/20">d = &radic;[2(1-&rho;)]</span>
+        </div>
+        <div class="h-64 relative">
+          <canvas id="distHistChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Chart 2: Interactive Heatmap for 15 Sector Leaders -->
+      <div class="glass-card rounded-2xl p-5 space-y-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-sm font-semibold text-white">Bản Đồ Nhiệt Cổ Phiếu Trọng Điểm HOSE</h3>
+            <p class="text-xs text-slate-400" id="heatmapSubtitle">Khoảng cách Mantegna giữa 15 mã đại diện các ngành lớn</p>
+          </div>
+          <div class="flex items-center gap-1 bg-slate-800 p-1 rounded-xl text-xs font-mono border border-slate-700">
+            <button onclick="toggleHeatmap('dist')" id="btnHeatmapDist" class="px-2.5 py-1 rounded-lg bg-emerald-600 text-white font-semibold transition-all">Mantegna d</button>
+            <button onclick="toggleHeatmap('corr')" id="btnHeatmapCorr" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition-all">Pearson &rho;</button>
+          </div>
+        </div>
+        <div class="h-64 relative flex items-center justify-center overflow-auto custom-scroll p-1" id="heatmapContainer">
+          <canvas id="heatmapCanvas" width="400" height="250" class="rounded-lg shadow-inner"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs for Detailed Tables -->
+    <div class="glass-card rounded-2xl p-5 space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-darkBorder pb-3">
+        <div class="flex flex-wrap gap-2">
+          <button onclick="switchTab('tab-relations')" id="btn-tab-relations" class="px-4 py-2 rounded-xl text-xs font-semibold bg-emerald-600 text-white transition-all">
+            Top Cặp Đồng Pha vs Phân Kỳ (Mantegna)
+          </button>
+          <button onclick="switchTab('tab-stats')" id="btn-tab-stats" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">
+            Bảng Đặc Trưng Tài Chính 98 Mã
+          </button>
+          <button onclick="switchTab('tab-returns-preview')" id="btn-tab-returns-preview" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">
+            Xem Trước Ma Trận Lợi Suất (log_returns.csv)
+          </button>
+          <button onclick="switchTab('tab-skew-kurt')" id="btn-tab-skew-kurt" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">
+            Đánh Giá Đuôi Béo (Skewness & Kurtosis)
+          </button>
+          <button onclick="switchTab('tab-cleaning-audit')" id="btn-tab-cleaning-audit" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">
+            Lịch Sử Làm Sạch (Bước 2)
+          </button>
+        </div>
+        <input type="text" id="tableSearch" onkeyup="filterTable()" placeholder="Tìm mã cổ phiếu..." class="bg-slate-800 border border-slate-700 text-slate-200 text-xs rounded-xl px-3 py-1.5 focus:outline-none focus:border-brand-500 w-48">
+      </div>
+
+      <!-- Tab Content 0: Relational Modeling (Top Pairs) -->
+      <div id="tab-relations" class="tab-panel space-y-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          <!-- Top 10 Highest In-Phase Pairs (Closest Mantegna Distance) -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wide flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                Top 10 Cặp Đồng Pha Cao Nhất (Cùng Cụm - d Bé Nhất)
+              </h4>
+              <span class="text-[10px] font-mono text-slate-400">Rủi ro hệ thống giống nhau</span>
+            </div>
+            <div class="overflow-x-auto custom-scroll border border-darkBorder rounded-xl max-h-72">
+              <table class="w-full text-left text-xs font-mono">
+                <thead class="sticky top-0 bg-darkBg text-slate-400 border-b border-darkBorder">
+                  <tr>
+                    <th class="py-2 px-3">CẶP CỔ PHIẾU</th>
+                    <th class="py-2 px-3 text-right">TƯƠNG QUAN (&rho;)</th>
+                    <th class="py-2 px-3 text-right">KHOẢNG CÁCH (d)</th>
+                    <th class="py-2 px-3">Ý NGHĨA DANH MỤC</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyTopPairs" class="divide-y divide-darkBorder">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Top 10 Most Divergent / Orthogonal Pairs (Furthest Mantegna Distance) -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-bold text-cyan-400 uppercase tracking-wide flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+                Top 10 Cặp Phân Kỳ / Độc Lập Nhất (Khác Cụm - d Lớn Nhất)
+              </h4>
+              <span class="text-[10px] font-mono text-slate-400">Đa dạng hóa rủi ro tối ưu</span>
+            </div>
+            <div class="overflow-x-auto custom-scroll border border-darkBorder rounded-xl max-h-72">
+              <table class="w-full text-left text-xs font-mono">
+                <thead class="sticky top-0 bg-darkBg text-slate-400 border-b border-darkBorder">
+                  <tr>
+                    <th class="py-2 px-3">CẶP CỔ PHIẾU</th>
+                    <th class="py-2 px-3 text-right">TƯƠNG QUAN (&rho;)</th>
+                    <th class="py-2 px-3 text-right">KHOẢNG CÁCH (d)</th>
+                    <th class="py-2 px-3">Ý NGHĨA DANH MỤC</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyBottomPairs" class="divide-y divide-darkBorder">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content 1: Financial Features Table -->
+      <div id="tab-stats" class="tab-panel hidden space-y-3">
+        <div class="overflow-x-auto custom-scroll max-h-96">
+          <table class="w-full text-left text-xs" id="tableStats">
+            <thead class="sticky top-0 bg-darkBg text-slate-400 font-mono border-b border-darkBorder">
+              <tr>
+                <th class="py-2.5 px-3">MÃ CK</th>
+                <th class="py-2.5 px-3">LỢI SUẤT TB NGÀY (%)</th>
+                <th class="py-2.5 px-3">LỢI SUẤT NĂM (&mu;_ann)</th>
+                <th class="py-2.5 px-3">BIẾN ĐỘNG NĂM (&sigma;_ann)</th>
+                <th class="py-2.5 px-3">TỶ SỐ SHARPE</th>
+                <th class="py-2.5 px-3">ĐỘ LỆCH (SKEW)</th>
+                <th class="py-2.5 px-3">ĐỘ NHỌN (KURT)</th>
+                <th class="py-2.5 px-3">MIN / MAX (%)</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyStats" class="divide-y divide-darkBorder font-mono">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab Content 2: Returns Matrix Preview -->
+      <div id="tab-returns-preview" class="tab-panel hidden space-y-3">
+        <div class="text-xs text-slate-400 flex items-center justify-between">
+          <span>Xem trước 5 phiên đầu của 10 mã đầu tiên trong ma trận đặc trưng <code>log_returns.csv</code> (Đơn vị: %):</span>
+          <span class="text-emerald-400 font-mono">Kích thước: 1.186 phiên &times; 98 mã</span>
+        </div>
+        <div class="overflow-x-auto custom-scroll max-h-96">
+          <table class="w-full text-left text-xs font-mono" id="tableReturnsHead">
+            <thead class="sticky top-0 bg-darkBg text-slate-300 border-b border-darkBorder" id="theadReturnsHead"></thead>
+            <tbody id="tbodyReturnsHead" class="divide-y divide-darkBorder"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab Content 3: Skewness & Kurtosis Evaluation -->
+      <div id="tab-skew-kurt" class="tab-panel hidden space-y-3">
+        <div class="p-3 bg-indigo-950/20 border border-indigo-500/20 rounded-xl text-xs text-slate-300 space-y-1">
+          <p><strong class="text-indigo-400">Ý nghĩa lý thuyết xác suất thống kê:</strong></p>
+          <p>• <strong>Độ lệch (Skewness):</strong> Đo lường tính bất đối xứng của lợi suất. Skew &lt; 0 cho thấy rủi ro sụt giảm mạnh đột ngột (Crash risk) phổ biến ở thị trường tài chính.</p>
+          <p>• <strong>Độ nhọn (Kurtosis):</strong> Đo lường rủi ro đuôi béo (Fat-tail). Lợi suất chứng khoán thực tế thường có Kurtosis &gt; 3 (Leptokurtic), xác suất xuất hiện các phiên biến động cực đoan cao hơn nhiều so với phân phối chuẩn lý thuyết.</p>
+        </div>
+        <div class="overflow-x-auto custom-scroll max-h-96">
+          <table class="w-full text-left text-xs" id="tableKurtosis">
+            <thead class="sticky top-0 bg-darkBg text-slate-400 font-mono border-b border-darkBorder">
+              <tr>
+                <th class="py-2.5 px-3">MÃ CK</th>
+                <th class="py-2.5 px-3">HỆ SỐ BẤT ĐỐI XỨNG (SKEWNESS)</th>
+                <th class="py-2.5 px-3">ĐỘ NHỌN (EXCESS KURTOSIS)</th>
+                <th class="py-2.5 px-3">ĐẶC ĐIỂM ĐUÔI PHÂN PHỐI</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyKurtosis" class="divide-y divide-darkBorder font-mono"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab Content 4: Data Cleaning Audit (Reference) -->
+      <div id="tab-cleaning-audit" class="tab-panel hidden space-y-3">
+        <div class="p-3 bg-slate-800/40 border border-darkBorder rounded-xl text-xs text-slate-300">
+          Dữ liệu lợi suất được tính toán trực tiếp từ ma trận giá đã làm sạch <strong>adj_close_clean.csv</strong> (đã lọc 68 ngày nghỉ lễ HOSE, loại 2 mã VTP và NAB thiếu lịch sử, và điền khuyết 48 ô cho CTR, HHV, EVF).
+        </div>
+        <div class="overflow-x-auto custom-scroll max-h-96">
+          <table class="w-full text-left text-xs" id="tableCleaningRef">
+            <thead class="sticky top-0 bg-darkBg text-slate-400 font-mono border-b border-darkBorder">
+              <tr>
+                <th class="py-2.5 px-3">HẠNG MỤC LÀM SẠCH</th>
+                <th class="py-2.5 px-3">TRƯỚC XỬ LÝ</th>
+                <th class="py-2.5 px-3">SAU XỬ LÝ</th>
+                <th class="py-2.5 px-3">KẾT QUẢ ĐẠT ĐƯỢC</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-darkBorder font-mono">
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-white">Số mã cổ phiếu</td>
+                <td class="py-2 px-3 text-slate-400">100 mã</td>
+                <td class="py-2 px-3 text-emerald-400 font-bold">98 mã</td>
+                <td class="py-2 px-3 text-slate-300">Loại trừ VTP, NAB (< 90% phiên)</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-white">Phiên giao dịch thực</td>
+                <td class="py-2 px-3 text-slate-400">1.255 ngày</td>
+                <td class="py-2 px-3 text-cyan-400 font-bold">1.187 phiên</td>
+                <td class="py-2 px-3 text-slate-300">Khử 68 ngày nghỉ lễ Volume=0</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-white">Dữ liệu khuyết NaN</td>
+                <td class="py-2 px-3 text-slate-400">48 ô khuyết thời gian</td>
+                <td class="py-2 px-3 text-emerald-400 font-bold">0 ô (Sạch 100%)</td>
+                <td class="py-2 px-3 text-slate-300">Đã điền khuyết bằng Forward-Fill</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-white">Chuỗi lợi suất trích xuất</td>
+                <td class="py-2 px-3 text-slate-400">Chưa trích xuất</td>
+                <td class="py-2 px-3 text-indigo-400 font-bold">1.186 phiên lợi suất</td>
+                <td class="py-2 px-3 text-slate-300">Vector đặc trưng chuỗi thời gian hoàn chỉnh</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- File Export Status Banner -->
+    <div id="savedBanner" class="hidden glass-card rounded-2xl p-4 border border-emerald-500/30 bg-emerald-950/20">
+      <div class="flex items-center gap-3">
+        <svg class="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        <div class="text-xs text-slate-300">
+          <span class="font-semibold text-emerald-400">Đã xuất bản bộ dữ liệu & ma trận quan hệ vào <code class="bg-slate-800 px-1.5 py-0.5 rounded text-emerald-300">data/processed/</code>:</span>
+          <div id="savedFilesList" class="mt-1 font-mono text-[11px] text-slate-400 space-x-2"></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    let distChartInstance = null;
+    let heatmapData = null;
+    let currentHeatmapMode = 'dist';
+
+    async function initAudit() {
+      try {
+        const res = await fetch('/api/audit');
+        const json = await res.json();
+        if (json.status === 'success') {
+          document.getElementById('statusIndicator').innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Đã nạp dữ liệu sạch';
+          triggerPipeline();
+        }
+      } catch (err) {
+        console.error(err);
+        document.getElementById('statusIndicator').innerHTML = '<span class="w-2 h-2 rounded-full bg-rose-500"></span> Lỗi nạp dữ liệu';
+      }
+    }
+
+    async function triggerPipeline() {
+      const btn = document.getElementById('btnRun');
+      btn.disabled = true;
+      btn.innerHTML = `<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Đang tính tương quan & Mantegna...`;
+      
+      const payload = {
+        min_coverage_pct: 90.0,
+        filter_holidays: true,
+        holiday_zero_vol_ratio: 0.50,
+        imputation_method: "ffill",
+        calc_returns: true,
+        calc_relations: true,
+        return_type: document.getElementById('returnType').value,
+        save_to_disk: true
+      };
+
+      try {
+        const res = await fetch('/api/process', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const json = await res.json();
+        if (json.status === 'success') {
+          renderResults(json.data);
+          loadHeatmapData();
+        } else {
+          alert('Lỗi khi tính toán: ' + json.message);
+        }
+      } catch (err) {
+        alert('Lỗi kết nối API: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path></svg> Chạy Pipeline Bước 3.2 (Tương Quan & Mantegna)`;
+      }
+    }
+
+    function renderResults(data) {
+      const comp = data.comparison;
+      const ret = data.returns_data;
+      const rel = data.relations_data;
+
+      // KPIs
+      document.getElementById('metricStocksCount').innerText = comp.after.kept_stocks_count;
+
+      if (ret) {
+        document.getElementById('metricMeanReturn').innerText = (ret.mean_market_annual_return > 0 ? '+' : '') + ret.mean_market_annual_return + '%';
+        document.getElementById('metricMeanSharpe').innerText = ret.mean_market_sharpe;
+
+        // Render Tables
+        renderStatsTable(ret.return_statistics);
+        renderReturnsHeadTable(ret.sample_returns_head);
+        renderKurtosisTable(ret.return_statistics);
+      }
+
+      if (rel) {
+        document.getElementById('metricMeanCorr').innerText = rel.mean_pairwise_correlation;
+        document.getElementById('metricMeanDist').innerText = rel.mean_mantegna_distance;
+
+        // Distance distribution histogram
+        renderDistHistogram(rel.distance_histogram);
+
+        // Top pairs tables
+        renderPairsTable('tbodyTopPairs', rel.top_correlated_pairs, true);
+        renderPairsTable('tbodyBottomPairs', rel.bottom_correlated_pairs, false);
+      }
+
+      // Saved banner
+      if (comp.after.saved_files && comp.after.saved_files.length) {
+        document.getElementById('savedBanner').classList.remove('hidden');
+        document.getElementById('savedFilesList').innerHTML = comp.after.saved_files.map(f => `<span>✓ ${f.split(/[/\\\\]/).pop()}</span>`).join(' • ');
+      }
+    }
+
+    function renderDistHistogram(hist) {
+      const ctx = document.getElementById('distHistChart').getContext('2d');
+      if (distChartInstance) distChartInstance.destroy();
+
+      distChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: hist.bins.map(b => b),
+          datasets: [{
+            label: 'Số cặp quan sát',
+            data: hist.counts,
+            backgroundColor: 'rgba(16, 185, 129, 0.65)',
+            borderColor: '#10b981',
+            borderWidth: 1,
+            borderRadius: 3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { 
+              grid: { color: '#1f293d' }, 
+              ticks: { color: '#94a3b8', font: { family: 'JetBrains Mono', size: 9 }, maxTicksLimit: 12 },
+              title: { display: true, text: 'Khoảng cách Mantegna d', color: '#64748b', font: { size: 10 } }
+            },
+            y: { 
+              grid: { color: '#1f293d' }, 
+              ticks: { color: '#94a3b8', font: { family: 'JetBrains Mono', size: 9 } } 
+            }
+          }
+        }
+      });
+    }
+
+    function renderPairsTable(tbodyId, pairs, isTop) {
+      const tbody = document.getElementById(tbodyId);
+      if (!tbody) return;
+
+      tbody.innerHTML = pairs.map(p => {
+        let tag = isTop ? 'Cùng cụm' : 'Khác cụm';
+        let tagClass = isTop ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' : 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20';
+        let desc = isTop ? 'Đồng pha cao, không đa dạng hóa' : 'Trực giao, đa dạng hóa rủi ro tối đa';
+
+        return `
+          <tr class="hover:bg-slate-800/40 transition-colors">
+            <td class="py-2 px-3 font-bold text-white">${p.stock1} &mdash; ${p.stock2}</td>
+            <td class="py-2 px-3 text-right font-bold ${p.correlation >= 0.7 ? 'text-emerald-400' : 'text-slate-300'}">${p.correlation.toFixed(4)}</td>
+            <td class="py-2 px-3 text-right font-bold ${p.mantegna_distance <= 0.8 ? 'text-emerald-300' : 'text-cyan-300'}">${p.mantegna_distance.toFixed(4)}</td>
+            <td class="py-2 px-3">
+              <span class="text-[10px] px-2 py-0.5 rounded border ${tagClass}">${tag}</span>
+              <span class="text-slate-400 text-[11px] ml-1 hidden sm:inline">(${desc})</span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    async function loadHeatmapData() {
+      try {
+        const res = await fetch('/api/heatmap_sample');
+        const json = await res.json();
+        if (json.status === 'success') {
+          heatmapData = json;
+          drawHeatmap();
+        }
+      } catch (err) {
+        console.error("Heatmap load error:", err);
+      }
+    }
+
+    function toggleHeatmap(mode) {
+      currentHeatmapMode = mode;
+      const btnDist = document.getElementById('btnHeatmapDist');
+      const btnCorr = document.getElementById('btnHeatmapCorr');
+      const sub = document.getElementById('heatmapSubtitle');
+
+      if (mode === 'dist') {
+        btnDist.className = "px-2.5 py-1 rounded-lg bg-emerald-600 text-white font-semibold transition-all";
+        btnCorr.className = "px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition-all";
+        sub.innerText = "Khoảng cách Mantegna giữa 15 mã đại diện (0: Gần / Cùng cụm, 2: Xa / Khác cụm)";
+      } else {
+        btnCorr.className = "px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-semibold transition-all";
+        btnDist.className = "px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition-all";
+        sub.innerText = "Hệ số tương quan Pearson giữa 15 mã đại diện (1: Đồng pha tối đa, -1: Ngược pha)";
+      }
+      drawHeatmap();
+    }
+
+    function drawHeatmap() {
+      if (!heatmapData) return;
+      const canvas = document.getElementById('heatmapCanvas');
+      const ctx = canvas.getContext('2d');
+      const symbols = heatmapData.symbols;
+      const n = symbols.length;
+      const matrix = currentHeatmapMode === 'dist' ? heatmapData.mantegna_distance : heatmapData.correlation;
+
+      const size = 380;
+      canvas.width = size;
+      canvas.height = size;
+      ctx.clearRect(0, 0, size, size);
+
+      const margin = 35;
+      const cellSize = (size - margin) / n;
+
+      ctx.font = '9px JetBrains Mono';
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'middle';
+
+      // Draw labels & cells
+      for (let i = 0; i < n; i++) {
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText(symbols[i], margin - 6, margin + i * cellSize + cellSize / 2);
+
+        ctx.save();
+        ctx.translate(margin + i * cellSize + cellSize / 2, margin - 6);
+        ctx.rotate(-Math.PI / 4);
+        ctx.textAlign = 'left';
+        ctx.fillText(symbols[i], 0, 0);
+        ctx.restore();
+
+        for (let j = 0; j < n; j++) {
+          const val = matrix[i][j];
+          let color = '#111827';
+
+          if (currentHeatmapMode === 'dist') {
+            // Mantegna: 0 (deep blue/emerald) to 2 (white/slate)
+            const norm = Math.max(0, Math.min(1, val / 2.0));
+            // Inverted blues: norm=0 -> dark vibrant blue/emerald, norm=1 -> light grey
+            const r = Math.round(15 + norm * 200);
+            const g = Math.round(30 + norm * 180);
+            const b = Math.round(90 + norm * 150);
+            color = `rgb(${r}, ${g}, ${b})`;
+          } else {
+            // Correlation: -1 (red) to 0 (slate) to +1 (blue)
+            if (val >= 0) {
+              const r = Math.round(20 * (1 - val));
+              const g = Math.round(100 * val + 20);
+              const b = Math.round(220 * val + 30);
+              color = `rgb(${r}, ${g}, ${b})`;
+            } else {
+              const r = Math.round(220 * Math.abs(val) + 30);
+              const g = Math.round(30 * (1 - Math.abs(val)));
+              const b = Math.round(30 * (1 - Math.abs(val)));
+              color = `rgb(${r}, ${g}, ${b})`;
+            }
+          }
+
+          ctx.fillStyle = color;
+          ctx.fillRect(margin + j * cellSize, margin + i * cellSize, cellSize - 1, cellSize - 1);
+        }
+      }
+    }
+
+    function renderStatsTable(stats) {
+      const tbody = document.getElementById('tbodyStats');
+      tbody.innerHTML = stats.map(st => `
+        <tr class="hover:bg-slate-800/40 transition-colors">
+          <td class="py-2 px-3 font-bold text-white">${st.symbol}</td>
+          <td class="py-2 px-3 ${st.mean_daily_return >= 0 ? 'text-emerald-400' : 'text-rose-400'}">${st.mean_daily_return > 0 ? '+' : ''}${st.mean_daily_return}%</td>
+          <td class="py-2 px-3 font-semibold ${st.annualized_return >= 0 ? 'text-emerald-400' : 'text-rose-400'}">${st.annualized_return > 0 ? '+' : ''}${st.annualized_return}%</td>
+          <td class="py-2 px-3 text-slate-300 font-semibold">${st.annualized_volatility}%</td>
+          <td class="py-2 px-3 font-semibold ${st.sharpe_ratio >= 0 ? 'text-cyan-400' : 'text-slate-400'}">${st.sharpe_ratio}</td>
+          <td class="py-2 px-3 text-slate-300">${st.skewness}</td>
+          <td class="py-2 px-3 text-slate-300">${st.kurtosis}</td>
+          <td class="py-2 px-3 text-slate-400 text-[11px]">${st.min_return}% / +${st.max_return}%</td>
+        </tr>
+      `).join('');
+    }
+
+    function renderReturnsHeadTable(data) {
+      if (!data) return;
+      const thead = document.getElementById('theadReturnsHead');
+      const tbody = document.getElementById('tbodyReturnsHead');
+
+      thead.innerHTML = `<tr><th class="py-2 px-3">NGÀY (DATE)</th>${data.symbols.map(s => `<th class="py-2 px-3">${s}</th>`).join('')}</tr>`;
+      
+      tbody.innerHTML = data.dates.map((d, rowIdx) => `
+        <tr class="hover:bg-slate-800/40">
+          <td class="py-2 px-3 font-bold text-white">${d}</td>
+          ${data.rows[rowIdx].map(val => `<td class="py-2 px-3 ${val >= 0 ? 'text-emerald-400' : 'text-rose-400'}">${val > 0 ? '+' : ''}${val}%</td>`).join('')}
+        </tr>
+      `).join('');
+    }
+
+    function renderKurtosisTable(stats) {
+      const tbody = document.getElementById('tbodyKurtosis');
+      tbody.innerHTML = stats.map(st => {
+        let tailLabel = 'Đuôi chuẩn';
+        let tailClass = 'text-slate-300';
+        if (st.kurtosis > 3.0) {
+          tailLabel = 'Đuôi béo mạnh (Fat-tail / Leptokurtic)';
+          tailClass = 'text-amber-400 font-semibold';
+        } else if (st.kurtosis > 1.0) {
+          tailLabel = 'Đuôi hơi béo';
+          tailClass = 'text-indigo-400';
+        }
+
+        let skewLabel = st.skewness < 0 ? 'Lệch trái (Rủi ro sụt giảm)' : 'Lệch phải (Cú nảy tăng mạnh)';
+
+        return `
+          <tr class="hover:bg-slate-800/40 transition-colors">
+            <td class="py-2 px-3 font-bold text-white">${st.symbol}</td>
+            <td class="py-2 px-3 ${st.skewness < 0 ? 'text-rose-400' : 'text-emerald-400'}">${st.skewness} (${skewLabel})</td>
+            <td class="py-2 px-3 ${tailClass}">${st.kurtosis}</td>
+            <td class="py-2 px-3 text-slate-300 text-[11px]">${tailLabel}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-panel').forEach(el => el.classList.add('hidden'));
+      document.getElementById(tabId).classList.remove('hidden');
+
+      ['tab-relations', 'tab-stats', 'tab-returns-preview', 'tab-skew-kurt', 'tab-cleaning-audit'].forEach(id => {
+        const btn = document.getElementById('btn-' + id);
+        if (btn) {
+          if (id === tabId) {
+            btn.className = "px-4 py-2 rounded-xl text-xs font-semibold bg-emerald-600 text-white transition-all";
+          } else {
+            btn.className = "px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all";
+          }
+        }
+      });
+    }
+
+    function filterTable() {
+      const q = document.getElementById('tableSearch').value.toUpperCase();
+      ['tbodyStats', 'tbodyKurtosis'].forEach(tbodyId => {
+        const el = document.getElementById(tbodyId);
+        if (el) {
+          const rows = el.getElementsByTagName('tr');
+          for (let row of rows) {
+            const text = row.innerText.toUpperCase();
+            row.style.display = text.includes(q) ? '' : 'none';
+          }
+        }
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', initAudit);
+  </script>
+</body>
+</html>
