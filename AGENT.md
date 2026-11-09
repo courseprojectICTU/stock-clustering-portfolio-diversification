@@ -228,4 +228,19 @@ Tuân thủ nghiêm ngặt kỹ năng `ml-best-practices`:
      - Hoàn thiện Phụ lục B với bảng nhật ký đóng góp của các thành viên nhóm.
   3. Xuất bản tệp PDF hoàn chỉnh: [docs/report/Bao_cao_KT1_Nhom_StockClustering.pdf](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/docs/report/Bao_cao_KT1_Nhom_StockClustering.pdf).
 
+### Phiên 5 (2026-11-09) - Thấu triệt Triết lý Giảng viên & Thiết lập Kế hoạch Evidence-Based Mốc 2 (Bài kiểm tra 2)
+- **Trạng thái:** Chuẩn bị sẵn sàng 100% nền tảng lý thuyết và kế hoạch hành động thực nghiệm cho Mốc 2 (Tuần 6).
+- **Những việc đã làm:**
+  1. Phân tích toàn diện bộ bài giảng 9 tuần của thầy Nguyễn Tuấn Anh tại `machine-learning/` (đặc biệt là Bài 8: Học không giám sát và Phân cụm; Bài 2: Quy trình dự án ML; và Giáo trình 2026 Chương 11 & 12).
+  2. Đối chiếu sâu sắc giữa bài giảng của thầy với các công trình nghiên cứu quốc tế trên Google Scholar (Mantegna 1999, Markowitz 1952, Marcos López de Prado 2016/2018, Laloux et al. 1999, Rousseeuw 1987, Sokal & Rohlf 1962), lưu trữ tại [`docs/phan_tich_bai_giang_va_tai_lieu_scholar.md`](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/docs/phan_tich_bai_giang_va_tai_lieu_scholar.md).
+  3. Thấu triệt chỉ đạo trực tiếp từ giảng viên: *"Mọi quyết định, thuật toán, con số đều phải trải qua so sánh thực nghiệm và lựa chọn thứ tốt nhất có chỉ số chứng minh"*.
+  4. Hệ thống hóa **Chuỗi 7 Quyết định Kỹ thuật có Bằng chứng Thực nghiệm** từ Mốc 1 đến Mốc 2 vào [`docs/note_dua_vao_bao_cao.md`](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/docs/note_dua_vao_bao_cao.md).
+  5. Xây dựng Kế hoạch 3 Vòng thực nghiệm lặp cho Mốc 2:
+     - *Vòng 1:* Thử nghiệm 4 Linkages (Single, Complete, Average, Ward), đo hệ số Cophenetic CCC và phân bố kích thước cụm để bộc lộ nhược điểm Chaining effect.
+     - *Vòng 2:* Quét siêu tham số $K \in [3, 15]$ theo Silhouette Score, nhận diện "điểm số ảo" và chứng minh $K^* = 6$ (Ward) là tối ưu.
+     - *Vòng 3:* Xây dựng Baseline (PCA + K-Means) và kiểm định ổn định thời gian qua Adjusted Rand Index (ARI).
+  6. Xây dựng "Công thức vàng 4 bước" trả lời vấn đáp cá nhân đạt điểm 10 trước giảng viên.
+  7. Thống nhất phương thức triển khai: Xây dựng Notebook `06_hierarchical_clustering.ipynb` tự chứa (self-contained), đi từng bước có kiểm soát chặt chẽ của người dùng.
+
+
 

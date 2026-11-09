@@ -243,3 +243,53 @@
   - Thư mục [`web_app/`](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/web_app/): Công cụ giao diện web tương tác độc lập (dùng để kiểm toán dữ liệu và xem bản đồ nhiệt).
   - Toàn bộ pipeline phân tích và mô hình học máy phục vụ báo cáo nằm độc lập trong `src/` và `notebooks/`.
 
+---
+
+## 12. Triết Lý Nghiên Cứu "Evidence-Based" & Chuỗi Quyết Định Kỹ Thuật Có Bằng Chứng
+
+> **Lời dặn của giảng viên (Nguyễn Tuấn Anh):**  
+> *"Mọi quyết định, mọi thuật toán, mọi con số như tập train hay test, hay bộ dữ liệu tốt đều phải trải qua sự so sánh và lựa chọn thứ tốt nhất, có những chỉ số để chứng minh rằng nó tốt. Các em có thể tự xây dựng 1–2 bộ dữ liệu sau đó thực hiện đi từng vòng một, mỗi vòng phát triển các em có thể đúc rút ra các chỉ số và cuối cùng lựa chọn chỉ số tốt nhất. Nghĩa là khi quyết định một cái gì đó như tập train test hay mô hình... phải thực hiện xây dựng, test, chỉnh sửa số liệu..."*
+
+### Chuỗi 7 Quyết Định Kỹ Thuật Có Bằng Chứng Thực Nghiệm Toàn Dự Án:
+
+| STT | Quyết định kỹ thuật | Các phương án đưa lên bàn cân so sánh | Chỉ số / Bằng chứng định lượng để lựa chọn | Kết luận phương án tối ưu được chọn |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Chọn loại giá dữ liệu** *(Mốc 1)* | Giá đóng cửa thô (`close`) vs Giá đóng cửa điều chỉnh (`adj_close`) | Kiểm tra phiên chia cổ tức/thưởng: `close` bị bước nhảy giá giả tạo $\pm 20\% - 30\%$, làm sai lệch 100% độ biến động và tương quan. | **Chọn `adj_close`:** Loại bỏ hoàn toàn nhiễu chia tách cổ phiếu. |
+| **2** | **Lọc ngày giao dịch** *(Mốc 1)* | Giữ nguyên 1.255 ngày lịch dương vs Lọc bỏ 68 ngày nghỉ lễ sàn HOSE | Thống kê số phiên Volume $= 0$: Yahoo lặp lại giá 68 ngày nghỉ lễ, tạo các chuỗi lợi suất $= 0$ giả làm tăng độ nhọn Kurtosis ảo. | **Chọn Lọc bỏ 68 ngày lễ:** Dữ liệu chuẩn hóa về đúng **1.187 phiên giao dịch thực tế**. |
+| **3** | **Xử lý dữ liệu khuyết** *(Mốc 1)* | Xóa dòng (Drop) vs Nội suy tuyến tính / Bfill vs Điền bước tiến (Forward-fill) | So sánh rò rỉ dữ liệu: Interpolation/Bfill vi phạm *Look-ahead bias* (dùng tương lai lấp quá khứ); Drop làm mất 3 mã tiềm năng (`CTR`, `EVF`, `HHV`). | **Chọn Forward-fill (`ffill`):** Điền 48 ô cho 3 mã, chuẩn logic tài chính nắm giữ tài sản. |
+| **4** | **Chọn không gian khoảng cách** *(Mốc 1)* | Khoảng cách Euclid vs Manhattan vs Cosine vs Siêu mêtric Mantegna | Kiểm định 20.000 bộ ba: Euclid bị *Bẫy biên độ dao động* và *Bẫy ngược pha*; Mantegna thỏa mãn **100% bất đẳng thức tam giác** (0 vi phạm). | **Chọn Khoảng cách Mantegna:** $d = \sqrt{2(1-\rho)} \in [0, 2]$, chống lỗi đảo nhánh trên Dendrogram. |
+| **5** | **Chia tập dữ liệu** *(Mốc 1)* | K-Fold xáo trộn ngẫu nhiên vs Chia tỷ lệ 80/20 vs Cửa sổ trượt vs Chia theo chu kỳ (Chronological) | Tỷ số RMT $Q = T/N$: K-Fold gây rò rỉ dữ liệu tương lai; 80/20 làm Test chỉ còn 10 tháng; Chia chu kỳ Train 3 năm / Test 1.8 năm đạt $Q = 7.54 \gg 1$ khử sạch nhiễu. | **Chọn Train 2022–2024 / Test 2025–2026:** Vừa đủ số phiên khử nhiễu, vừa cách ly tuyệt đối cho Backtest. |
+| **6** | **Chọn Tiêu chí liên kết (Linkages)** *(Trọng tâm Mốc 2)* | Single vs Complete vs Average vs Ward Linkage | • Hệ số bảo toàn khoảng cách gốc Cophenetic CCC.<br>• Mức độ cân bằng kích thước cụm (tránh bẫy xâu chuỗi Singleton). | **Chọn Ward Linkage:** Cụm đồng đều nhất $[21, 10, 33, 13, 7, 14]$, lý tưởng nhất để phân bổ vốn. |
+| **7** | **Chọn số cụm tối ưu $K^*$** *(Trọng tâm Mốc 2)* | Quét thực nghiệm $K \in [3, 15]$ cho cả 4 phương pháp | • Điểm Silhouette Score $s(i)$.<br>• Số lượng cụm đơn lẻ (Singleton count).<br>• Mức độ gắn kết nội cụm vs tách biệt ngoại cụm. | **Chọn $K^* = 6$ (hoặc 7):** Điểm cân bằng Pareto giữa độ tinh gọn và tính khả thi tài chính. |
+
+---
+
+## 13. Kế Hoạch 3 Vòng Thực Nghiệm Mốc 2 (Bài Kiểm Tra 2 - Tuần 6)
+
+1. **VÒNG 1: Thử nghiệm so sánh 4 Tiêu chí liên kết (Linkage Comparison)**
+   - Huấn luyện Agglomerative Clustering trên ma trận khoảng cách Mantegna tập Train với 4 linkage: Single, Complete, Average, Ward.
+   - Đo hệ số Cophenetic Correlation Coefficient (CCC):
+     - `Average`: $CCC = 0.9046$ (cao nhất, bảo toàn khoảng cách gốc tốt nhất).
+     - `Single`: $CCC = 0.8664$, nhưng bị hiệu ứng xâu chuỗi (Chaining Effect) làm 93 mã dồn vào 1 cụm khổng lồ, 5 cụm đơn lẻ.
+     - `Complete`: $CCC = 0.6760$.
+     - `Ward`: $CCC = 0.3615$, phương sai bị biến đổi phi tuyến nhưng tạo ra cấu trúc cụm cân bằng nhất $[21, 10, 33, 13, 7, 14]$.
+2. **VÒNG 2: Quét siêu tham số $K \in [3, 15]$ & Biện luận chọn $K^*$ tối ưu**
+   - Quét Silhouette Score trên dải $K \in [3, 15]$ cho cả 4 tiêu chí.
+   - Nhận diện "điểm số ảo" của Single/Average tại $K=3$ do tách 1–2 mã ngoại lai.
+   - Khẳng định Ward tại $K^* = 6$ đạt cân bằng tối ưu giữa độ tách biệt và khả năng đa dạng hóa danh mục.
+3. **VÒNG 3: Đối chứng Baseline (PCA + K-Means) & Kiểm định độ ổn định (Sub-period Stability)**
+   - Huấn luyện K-Means trên không gian PCA 3 chiều làm mô hình cơ sở.
+   - So sánh trực tiếp: Hierarchical (Ward) vs K-Means (PCA) vs Random Baseline.
+   - Đo chỉ số Adjusted Rand Index (ARI) giữa 3 pha thị trường của tập Train: Downtrend 2022 vs Tích lũy 2023 vs Phục hồi 2024.
+
+---
+
+## 14. Công Thức 4 Bước Trả Lời Vấn Đáp 10 Điểm Trước Giảng Viên
+
+Khi thầy đặt câu hỏi: *"Tại sao em chọn X mà không chọn Y?"*, sinh viên trả lời mạch lạc theo 4 bước:
+1. **Đặt vấn đề:** *"Dạ thưa thầy, nhóm em không chọn X cảm tính mà đã đưa cả các phương án ứng viên [A, B, C, X] vào chạy thực nghiệm đối chứng trên tập Train."*
+2. **Nêu chỉ số đo lường:** *"Nhóm em đo lường bằng các thước đo khách quan: [Chỉ số 1 (CCC), Chỉ số 2 (Silhouette Score), Chỉ số 3 (Phân bố kích thước cụm/Singleton)]."*
+3. **Chỉ ra nhược điểm của các phương án khác:** *"Phương án A bị nhược điểm [nêu số liệu thực nghiệm], phương án B bị [nêu số liệu thực nghiệm]."*
+4. **Khẳng định phương án chọn:** *"Trong khi đó, phương án X đạt [con số cụ thể], giải quyết trọn vẹn bài toán [mục tiêu phân bổ vốn] nên nhóm em chọn X ạ!"*
+
+

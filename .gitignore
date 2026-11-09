@@ -59,3 +59,5 @@ reports/figures/*.pdf
 *.synctex.gz
 *.fls
 *.fdb_latexmk
+
+machine-learning/
