@@ -1,0 +1,41 @@
+{
+  "dataset": {
+    "total_stocks": 98,
+    "train_sessions": 739,
+    "phases": {
+      "2022_downtrend": 245,
+      "2023_sideway": 247,
+      "2024_recovery": 247
+    }
+  },
+  "temporal_stability_ari": {
+    "ari_2022_vs_2023": 0.307382535825168,
+    "ari_2023_vs_2024": 0.31733643352872154,
+    "ari_2022_vs_2024": 0.34126111904562556,
+    "mean_inter_phase_ari": 0.32199336279983837,
+    "std_inter_phase_ari": 0.014217473824687368,
+    "ari_2022_vs_full": 0.5686059059405326,
+    "ari_2023_vs_full": 0.3622982393079092,
+    "ari_2024_vs_full": 0.3427030063476986,
+    "mean_phase_to_full_ari": 0.42453571719871347,
+    "baseline_kmeans_mean_inter_phase": 0.3492541847327734,
+    "baseline_kmeans_mean_to_full": 0.47219646576916374
+  },
+  "icb_sector_alignment": {
+    "num_icb_sectors": 12,
+    "overall_purity": 0.5612244897959183,
+    "nmi_score": 0.5339238676083458,
+    "ari_with_icb": 0.2895101084091465,
+    "homogeneity": 0.5158419289461994,
+    "completeness": 0.5533195177465592,
+    "v_measure": 0.5339238676083456,
+    "pure_clusters_100pct": [
+      "Cụm 3 (Hóa chất)",
+      "Cụm 6 (Ngân hàng)",
+      "Cụm 8 (Vingroup)"
+    ],
+    "cross_sector_clusters": [
+      "Cụm 2 (Chứng khoán 70% + Thép 30%)"
+    ]
+  }
+}

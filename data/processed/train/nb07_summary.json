@@ -1,0 +1,43 @@
+{
+  "best_linkage": "ward",
+  "best_k": 10,
+  "ccc_scores": {
+    "single": 0.8663907406855127,
+    "complete": 0.6760345535386274,
+    "average": 0.9046323439861484,
+    "ward": 0.3614773820208175
+  },
+  "best_config_metrics": {
+    "silhouette": 0.0296,
+    "rho_intra": 0.4907,
+    "rho_inter": 0.3518,
+    "delta_corr": 0.1389,
+    "norm_entropy": 0.9203,
+    "n_singletons": 0,
+    "cluster_sizes": [
+      21,
+      19,
+      13,
+      10,
+      10,
+      8,
+      7,
+      4,
+      3,
+      3
+    ]
+  },
+  "best_baseline_name": "KMeans_PCA_5D",
+  "pca_n_comp_80pct": 45,
+  "bootstrap_stability": {
+    "runs": 30,
+    "hc_ari_mean": 0.6914,
+    "hc_ari_std": 0.1215,
+    "hc_sil_mean": 0.0317,
+    "hc_sil_std": 0.0037,
+    "km_ari_mean": 0.8485,
+    "km_ari_std": 0.0823,
+    "km_sil_mean": 0.0188,
+    "km_sil_std": 0.0029
+  }
+}

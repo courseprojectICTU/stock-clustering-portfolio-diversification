@@ -92,8 +92,8 @@ stock-clustering-portfolio-diversification/
 │   ├── 03_feature_extraction_returns.ipynb # Lợi suất logarit & kiểm định đuôi béo
 │   ├── 04_correlation_distance.ipynb    # Pearson & khoảng cách Mantegna toàn kỳ
 │   ├── 05_train_test_split.ipynb        # Phân chia Train (2022-2024) / Test (2025-2026)
-│   ├── 06_hierarchical_clustering.ipynb # Dendrogram, Silhouette, 4 Linkages trên Train
-│   ├── 07_kmeans_pca_comparison.ipynb   # Đối chứng PCA + K-Means
+│   ├── 06_algorithm_selection_hierarchical_vs_kmeans.ipynb # Lựa chọn thuật toán: K-Means vs Phân cụm phân cấp (Quyết định 6)
+│   ├── 07_hierarchical_clustering_linkages.ipynb # So sánh 4 Linkages, Dendrogram, CCC, Quét K* (Quyết định 7 & 8)
 │   ├── 08_stability_and_sector.ipynb    # ARI theo thời gian & đối chiếu ngành ICB
 │   └── 09_portfolio_backtest.ipynb      # Danh mục đa dạng hóa & Out-of-Sample Backtest
 │
@@ -240,7 +240,73 @@ Tuân thủ nghiêm ngặt kỹ năng `ml-best-practices`:
      - *Vòng 2:* Quét siêu tham số $K \in [3, 15]$ theo Silhouette Score, nhận diện "điểm số ảo" và chứng minh $K^* = 6$ (Ward) là tối ưu.
      - *Vòng 3:* Xây dựng Baseline (PCA + K-Means) và kiểm định ổn định thời gian qua Adjusted Rand Index (ARI).
   6. Xây dựng "Công thức vàng 4 bước" trả lời vấn đáp cá nhân đạt điểm 10 trước giảng viên.
-  7. Thống nhất phương thức triển khai: Xây dựng Notebook `06_hierarchical_clustering.ipynb` tự chứa (self-contained), đi từng bước có kiểm soát chặt chẽ của người dùng.
+  7. Thống nhất phương thức triển khai: Xây dựng Notebook `06_algorithm_selection_hierarchical_vs_kmeans.ipynb` để đối chứng thuật toán không thiên vị trước khi bước sang so sánh 4 linkage.
+
+### Phiên 6 (2026-11-10) - Bước 6: So Sánh Đối Chứng Toàn Diện 3 Trường Phái & Hoàn Thành Notebook 06
+- **Trạng thái:** Hoàn tất toàn diện Quyết định Kỹ thuật số 6: Lựa chọn Thuật toán cốt lõi cho đề tài (Đáp ứng trọn vẹn Tiêu chí 1: Lựa chọn thuật toán & Tiêu chí 2: Mô hình cơ sở Baseline của Bài kiểm tra 2 - Tuần 6).
+- **Những việc đã làm:**
+  1. Thấu triệt chỉ đạo mở rộng đối chứng không chỉ giữa K-Means và Hierarchical Bottom-Up, mà mở rộng so sánh toàn diện **3 trường phái thuật toán phân cụm**:
+     - *Phân hoạch phẳng (Flat Partitioning):* K-Means (Euclid) và K-Means (PCA 5D).
+     - *Phân cấp Chia dần (Top-Down / Divisive):* Bisecting K-Means (chia nhị phân từ gốc) và DIANA (Divisive Analysis trên khoảng cách Mantegna).
+     - *Phân cấp Gộp dần (Bottom-Up / Agglomerative):* Khảo sát 4 tiêu chí liên kết (*Single, Complete, Average, Ward*) trên ma trận khoảng cách Mantegna.
+  2. Xây dựng và thực thi thành công 100% mã nguồn Notebook khoa học tự chứa [`notebooks/06_algorithm_selection_hierarchical_vs_kmeans.ipynb`](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/notebooks/06_algorithm_selection_hierarchical_vs_kmeans.ipynb) trên tập dữ liệu Train ($739 \text{ phiên} \times 98 \text{ mã}$).
+  3. Thu thập các bằng chứng định lượng thực nghiệm đanh thép:
+     - *Tính ổn định tái lập (Pairwise ARI qua 30 random seeds):* Flat K-Means bị bất ổn định nặng ($\overline{ARI} = 0.4722 \pm 0.1272$); Top-Down Bisecting K-Means đạt $0.5517 \pm 0.0883$ (do mỗi nhánh chia nhị phân vẫn dùng 2-Means stochastic); Bottom-Up Hierarchical đạt $ARI = 1.0000 \pm 0.0000$ tuyệt đối (tất định 100%, 0 phương sai ở mọi linkage).
+     - *Khả năng bóc tách tương quan ($\Delta = \bar{\rho}_{\text{intra}} - \bar{\rho}_{\text{inter}}$):*
+       - Flat K-Means (Euclid) rơi vào bẫy nghịch lý: $\Delta = -0.0018$ (ngoài cụm tương quan cao hơn trong cụm).
+       - Top-Down Bisecting K-Means: $\Delta = +0.0428$.
+       - Top-Down DIANA: $\Delta = +0.2122$ nhưng rơi vào **Bẫy lột vỏ ngoại lai (Outlier Peeling Trap)**, bóc 4 mã cá biệt để lại siêu cụm 90 mã $[90, 4, 1, 1, 1, 1]$ (không thể dùng phân bổ vốn).
+       - Bottom-Up Ward: $\bar{\rho}_{\text{intra}} = 0.4438$ (cao nhất), $\Delta = +0.0932$ và kích thước cụm phân bổ cân bằng lý tưởng $[33, 21, 14, 13, 10, 7]$.
+     - *Bảo toàn liên kết ngành vi mô:* Cặp cổ phiếu cùng ngành (`HSG-NKG`, `DCM-DPM`) tạo các hạt nhân vi mô ($d \approx 0.47 - 0.52$), Bottom-Up khóa chặt các cặp này từ đáy cây, trong khi các phương pháp top-down và flat dễ bị chia cắt sai ranh giới.
+  4. Xuất bản biểu đồ khoa học 3 Panel đối chứng tại [`reports/figures/06_kmeans_vs_hierarchical_comparison.png`](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/reports/figures/06_kmeans_vs_hierarchical_comparison.png) và đồng bộ vào [`docs/report/images/hinh_kmeans_vs_hierarchical.png`](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/docs/report/images/hinh_kmeans_vs_hierarchical.png).
+  5. Đồng bộ hóa toàn bộ tài liệu dự án: Cập nhật đầy đủ Mục 1, Mục 8, Mục 9, Mục 11–14 trong [`docs/note_dua_vao_bao_cao.md`](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/docs/note_dua_vao_bao_cao.md) (bao gồm sửa trùng lặp số mục 10, đồng bộ toàn bộ số liệu thực nghiệm 3 trường phái từ Notebook 06 và tách bạch trạng thái bước tiếp theo tại Notebook 07). Chuẩn hóa toàn bộ văn bản Markdown trong Notebook 06 theo phong cách con người súc tích, học thuật, đúng trọng tâm.
+- **Kế hoạch cho bước tiếp theo (Notebook 07):**
+  - Chuyển sang **Notebook `07_hierarchical_clustering_linkages.ipynb`**:
+    1. Huấn luyện và so sánh chi tiết 4 tiêu chí liên kết: *Single*, *Complete*, *Average (UPGMA)*, và *Ward* trên ma trận khoảng cách Mantegna tập Train.
+    2. Vẽ 4 cây phả hệ Dendrogram, đo hệ số tương quan Cophenetic (CCC).
+    3. Nhận diện hiện tượng xâu chuỗi (Chaining effect) của Single Linkage.
+    4. Quét siêu tham số số cụm $K \in [3, 15]$ bằng Silhouette Score Analysis để chốt số cụm tối ưu $K^* = 6$.
+
+### Phiên 7 (2026-11-12) - Bước 7: So Sánh 4 Tiêu Chí Liên Kết, Chốt Ward & $K^* = 10$ (Hoàn Thành Notebook 07)
+- **Trạng thái:** Hoàn tất toàn diện Quyết định Kỹ thuật số 7 (*Chọn tiêu chí liên kết*) và Quyết định Kỹ thuật số 8 (*Chọn số cụm tối ưu $K^*$*), đáp ứng đầy đủ Tiêu chí 1–7 của Bài kiểm tra 2 (Tuần 6).
+- **Những việc đã làm:**
+  1. Xây dựng và thực thi tự chứa 100% [`notebooks/07_hierarchical_clustering_linkages.ipynb`](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/notebooks/07_hierarchical_clustering_linkages.ipynb) (qua script [`scripts/create_nb07.py`](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/scripts/create_nb07.py)) trên dữ liệu tập Train ($739 \text{ phiên} \times 98 \text{ mã}$).
+  2. Kiểm chứng tính hợp lệ toán học của **Ward Linkage** trên khoảng cách Mantegna thông qua đẳng thức Euclid trên mặt cầu đơn vị $\mathbb{S}^{T-1}$ với sai số cực đại chỉ $3.77 \times 10^{-15}$.
+  3. **Vòng 1 (CCC & Dendrogram):** `Average` ($CCC = 0.9046$), `Single` ($0.8664$), `Complete` ($0.6760$), `Ward` ($0.3615$). Xuất biểu đồ `07_dendrograms_4_linkages.png`.
+  4. **Vòng 2 (Quét $K \in [3, 15]$ & Ma trận Đa tiêu chí):**
+     - Lật tẩy điểm số Silhouette ảo ở $K=3$ của `Single` và `Average` (`0.1486`, nhưng dồn `98.0%` mã vào 1 cụm `[96, 1, 1]`).
+     - Trong $52$ cấu hình khảo sát, chỉ có **$11$ cấu hình** vượt qua bộ lọc khả thi (`0 Singleton` & `MaxShare <= 50%`) và 100% thuộc về **Ward Linkage**.
+     - Trong dải danh mục $K \in [5, 10]$, ma trận đa tiêu chí chốt **Ward Linkage tại $K^* = 10$** (`Composite Score = 0.5889`, `Silhouette = 0.0296`, $\Delta = +0.1389$, `Norm Entropy = 0.9203`, `0 Singleton`, kích thước `[21, 19, 13, 10, 10, 8, 7, 4, 3, 3]`).
+  5. **Vòng 3A & 3B (Đối chứng 2 biến thể Baseline & Block Sub-sampling):**
+     - Đối chứng tại $K^*=10$: Bottom-Up Ward ($\Delta = +0.1389$) vượt trội cả `KMeans_PCA_5D` ($\Delta = +0.0771$, $30.50\%$ phương sai, $1$ Singleton) lẫn `KMeans_PCA_45D_80pct` ($\Delta = +0.0224$, $80.34\%$ phương sai, bị lời nguyền số chiều).
+     - Kiểm định Block Sub-sampling ($B=30$, $80\%$ khối phiên): Ward đạt $\Delta = +0.1398 \pm 0.0114$ và `Silhouette = 0.0317 ± 0.0037` (cao gần gấp đôi Baseline `+0.0736 ± 0.0093` và `0.0188 ± 0.0029`), trong khi `ARI` đạt `0.6914 ± 0.1215` (so với `0.8485 ± 0.0823` của `PCA 5D` do Ward nhạy hơn ở các nhánh hợp nhất mức cao cho mã ranh giới).
+  6. **Phân tích hồ sơ 10 cụm & Error Analysis:** Tách rõ các khối thuần ngành (*Ngân hàng* 13 mã $\bar{\rho}=0.600$, *Vingroup* 3 mã $\bar{\rho}=0.534$, *Phân bón* 4 mã $\bar{\rho}=0.670$, *Chứng khoán-Thép* 10 mã $\bar{\rho}=0.696$); chỉ ra các mã ranh giới có Silhouette âm (`TCB -0.1421`, `SBT -0.1233`, `CTD -0.1132`, `VCB -0.1123`).
+  7. **Xuất bản Artifact & Đồng bộ tài liệu:** Lưu 5 bộ biểu đồ vào `reports/figures/` & `docs/report/images/`, xuất [`data/processed/train/train_clusters_optimal.csv`](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/data/processed/train/train_clusters_optimal.csv), `linkage_k_sweep_metrics.csv`, `nb07_summary.json` và cập nhật [`docs/note_dua_vao_bao_cao.md`](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/docs/note_dua_vao_bao_cao.md).
+  8. **Chuẩn hóa văn phong Markdown toàn diện (Notebooks 01–07):** Chuẩn hóa đồng bộ cách diễn đạt của toàn bộ 7 notebook theo phong cách kỹ thuật con người (ngắn gọn, súc tích, dựa trên số liệu thực tế, không có từ ngữ trừu tượng hoa mỹ). Thống nhất định dạng cấu trúc chung: Header chuẩn hóa (`Mục tiêu, Dữ liệu, Phương pháp, Các bước thực hiện`), tiêu đề mục rõ ràng, và ô Tổng kết thống nhất 3 phần tiếng Việt (`Câu hỏi & Trả lời`, `Kết quả phân tích dữ liệu chính`, `Nhận định & Hướng đi tiếp theo`). Toàn bộ 100% code cells và kết quả thực thi được bảo lưu nguyên vẹn (0 lỗi). Đồng bộ cả 2 generator scripts `create_nb06.py` và `create_nb07.py`.
+- **Kế hoạch cho bước tiếp theo (Notebook 08):**
+  - Chuyển sang **Notebook `08_stability_and_sector.ipynb`**: Đánh giá tính ổn định liên pha theo chu kỳ năm (*2022 Downtrend* vs *2023 Tích lũy* vs *2024 Phục hồi*) bằng `ARI` và đối chiếu 10 cụm tối ưu với 11 nhóm ngành thực tế chuẩn ICB.
+
+### Phiên 8 (2026-11-13) - Bước 9: Đánh Giá Độ Ổn Định Liên Pha & Đối Chiếu 11 Phân Ngành ICB (Hoàn Thành Notebook 08)
+- **Trạng thái:** Hoàn thành 100% Notebook `08_stability_and_sector.ipynb` (9/10 bước toàn dự án), đáp ứng trọn vẹn toàn bộ 7 tiêu chí nhóm của Mốc 2 (Bài kiểm tra 2 - Tuần 6).
+- **Những việc đã làm:**
+  1. Xây dựng và thực thi tự chứa 100% [`notebooks/08_stability_and_sector.ipynb`](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/notebooks/08_stability_and_sector.ipynb) qua [`scripts/create_nb08.py`](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/scripts/create_nb08.py) (13 cells: 6 code cells, 7 markdown cells; 0 lỗi).
+  2. **Thực nghiệm 1 (Độ ổn định liên pha - Temporal Stability):**
+     - Huấn luyện độc lập mô hình Ward trên 3 chu kỳ: 2022 (Downtrend 245 phiên), 2023 (Tích lũy 247 phiên), 2024 (Phục hồi 247 phiên).
+     - Đo ma trận đối xứng ARI: Tương đồng giữa các pha độc lập đạt trung bình $ARI = 0.3220 \pm 0.0142$ ($2022 \text{ vs } 2023: 0.3074$; $2023 \text{ vs } 2024: 0.3173$; $2022 \text{ vs } 2024: 0.3413$).
+     - Tương đồng giữa từng pha với Toàn kỳ Train: 2022 đạt **$0.5686$**, 2023 đạt **$0.3623$**, 2024 đạt **$0.3427$** (trung bình $0.4245$). Khẳng định mô hình nắm bắt cấu trúc rủi ro cốt lõi của giai đoạn thị trường giảm mà vẫn thích ứng linh hoạt với các pha phục hồi.
+  3. **Thực nghiệm 2 (Đối chiếu 10 cụm với 11 ngành ICB cấp 1):**
+     - Ánh xạ 41 mô tả ngành ban đầu về 11 ngành ICB cấp 1 chuẩn quốc tế.
+     - Lập ma trận chéo $10 \times 11$: $NMI = 0.5339$, $V\text{-Measure} = 0.5339$, $ARI_{ICB} = 0.2895$, độ thuần khiết bình quân $Purity = 60.20\%$.
+     - **3 cụm đạt Purity 100%:** Cụm 6 (13/13 Ngân hàng thương mại), Cụm 3 (4/4 Phân bón - Hóa chất `DCM, DPM, DGC, BFC`), Cụm 8 (3/3 Họ Vingroup `VIC, VHM, VRE`).
+     - **Cụm liên ngành High-Beta:** Cụm 2 gom 7 mã Chứng khoán và 3 mã Thép (`HPG, HSG, NKG`), chứng minh thuật toán phát hiện tính chất đồng chu kỳ thanh khoản thị trường sâu sắc hơn phân ngành danh nghĩa.
+     - **Cụm phòng thủ:** Cụm 10 gom các mã vốn hóa lớn/điều tiết (`VCB, TCB, SSB` cùng `VNM, SAB, VJC, SCS, VPI`).
+  4. **Xuất bản Artifacts & Đồ thị:**
+     - Biểu đồ lưu vào `reports/figures/` và `docs/report/images/`: `08_temporal_stability_ari.png` và `08_crosstab_clusters_vs_icb.png`.
+     - File dữ liệu: [`cluster_icb_mapping.csv`](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/data/processed/train/cluster_icb_mapping.csv) và [`nb08_stability_summary.json`](file:///d:/HocTap/HK7/H%E1%BB%8Dc%20m%C3%A1y/project/stock-clustering-portfolio-diversification/data/processed/train/nb08_stability_summary.json).
+- **Kế hoạch cho bước tiếp theo:**
+  - Hoàn thiện Báo cáo Tiểu luận LaTeX cho Bài kiểm tra 2 (`Bao_cao_KT2_Nhom_StockClustering.tex`).
+  - Chuẩn bị cẩm nang vấn đáp 3 câu hỏi cá nhân (Tiêu chí 8, 9, 10).
+  - Triển khai **Notebook `09_portfolio_backtest.ipynb`** (Ứng dụng danh mục Markowitz & Backtest Out-of-Sample 2025–2026).
 
 
 
